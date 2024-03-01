@@ -6,7 +6,7 @@
 
 
 
-![](/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Documents/Images_Annexes/Arborescence.png)
+![](/Documents/Images_Annexes/Arborescence.png)
 
 
 
