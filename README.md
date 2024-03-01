@@ -1,8 +1,8 @@
-## Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels
+### Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels
 
 ##### ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### Hiérarchie des dossiers :
+### <u>Hiérarchie des dossiers</u> :
 
 
 
