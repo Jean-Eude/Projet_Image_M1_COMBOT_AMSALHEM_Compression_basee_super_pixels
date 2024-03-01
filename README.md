@@ -10,9 +10,9 @@
 
 
 
-**. Le dossier "Code" contient l'ensemble du code du projet**
+. Le dossier "Code" contient l'ensemble du code du projet
 
-**. Le dossier "Documents_Annexes" contient l'ensemble des thèses, des documents de recherches, etc... utiles pour le projet**
+. Le dossier "Documents_Annexes" contient l'ensemble des thèses, des documents de recherches, etc... utiles pour le projet
 
-**. Le dossier "Rapport" contient l'ensemble des rapports hebdomadaire.**
+. Le dossier "Rapport" contient l'ensemble des rapports hebdomadaire.
 
