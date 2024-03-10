@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/Include/ImageBase.hpp
+stdio.h
+-
+stdlib.h
+-
+
+/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/SLIC/Slic.cpp
+stdio.h
+-
+cmath
+-
+iostream
+-
+vector
+-
+cfloat
+-
+../Include/ImageBase.hpp
+/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/Include/ImageBase.hpp
+
