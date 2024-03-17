@@ -1,1 +1,1 @@
-/usr/bin/c++ -rdynamic CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o -o SLIC 
+/usr/bin/c++ -rdynamic CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o -o SLIC   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib /usr/local/lib/libSDL2.so 

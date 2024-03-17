@@ -2,6 +2,8 @@
 cmake_minimum_required (VERSION 3.0)
 project (Tutorials)
 
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 
 if( CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR )
@@ -40,9 +42,12 @@ add_executable(SLIC
 	Include/ImageBase.hpp
 	Include/image_ppm.h
 )
+
 target_link_libraries(SLIC
-	${ALL_LIBS}
+    ${ALL_LIBS}
+    ${SDL2_LIBRARIES}
 )
+
 # Xcode and Visual working directories
 set_target_properties(SLIC PROPERTIES XCODE_ATTRIBUTE_CONFIGURATION_BUILD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/SLIC/")
 create_target_launcher(SLIC WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/SLIC/")

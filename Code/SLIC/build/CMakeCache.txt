@@ -215,6 +215,9 @@ GDB_COMMAND:FILEPATH=/usr/bin/gdb
 //Directory to start our search in
 GDB_ROOT_DIR:PATH=
 
+//The directory containing a CMake configuration file for SDL2.
+SDL2_DIR:PATH=/usr/local/lib/cmake/SDL2
+
 //Value Computed by CMake
 Tutorials_BINARY_DIR:STATIC=/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build
 
