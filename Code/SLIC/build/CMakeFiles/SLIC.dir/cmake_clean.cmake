@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o"
+  "CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o.d"
   "CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o"
+  "CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o.d"
   "SLIC"
   "SLIC.pdb"
 )

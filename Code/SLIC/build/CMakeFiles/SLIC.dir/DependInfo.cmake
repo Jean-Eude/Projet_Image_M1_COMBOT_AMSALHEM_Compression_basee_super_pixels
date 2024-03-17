@@ -1,22 +1,15 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
-  )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/Include/ImageBase.cpp" "/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build/CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o"
-  "/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/SLIC/Slic.cpp" "/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build/CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
-
-# Preprocessor definitions for this target.
-set(CMAKE_TARGET_DEFINITIONS_CXX
-  "TW_STATIC"
-  "_CRT_SECURE_NO_WARNINGS"
   )
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/Include/ImageBase.cpp" "CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o" "gcc" "CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o.d"
+  "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/SLIC/Slic.cpp" "CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o" "gcc" "CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o.d"
   )
 
 # Targets to which this target links.

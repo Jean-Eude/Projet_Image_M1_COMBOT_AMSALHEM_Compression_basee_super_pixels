@@ -1,4 +1,4 @@
-# Install script for directory: /home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/external
+# Install script for directory: /home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/external
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
