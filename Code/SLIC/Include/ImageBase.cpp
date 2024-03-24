@@ -187,6 +187,10 @@ void ImageBase::copy(const ImageBase &copy)
 
 }
 
+void ImageBase::setData(int i ,unsigned char d){
+    data[i] = d;
+}
+
 unsigned char *ImageBase::operator[](int l)
 {
 	if(!isValid)
