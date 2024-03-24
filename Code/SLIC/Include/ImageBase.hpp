@@ -50,8 +50,9 @@ public:
 	int getWidth() { return width; };
 	int getTotalSize() { return nTaille; };
 	int getValidity() { return isValid; };
-	bool getColor() { return color; };
-	unsigned char *getData() { return data; };
+	bool getColor() { return color; }; 
+    void setData(int i , unsigned char d);
+    unsigned char *getData() { return data; };
 
 
 	void load(char *filename);

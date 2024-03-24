@@ -108,7 +108,6 @@ SLIC_EXTERNAL_OBJECTS =
 SLIC: CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o
 SLIC: CMakeFiles/SLIC.dir/Include/ImageBase.cpp.o
 SLIC: CMakeFiles/SLIC.dir/build.make
-SLIC: /usr/local/lib/libSDL2.so
 SLIC: CMakeFiles/SLIC.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable SLIC"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/SLIC.dir/link.txt --verbose=$(VERBOSE)

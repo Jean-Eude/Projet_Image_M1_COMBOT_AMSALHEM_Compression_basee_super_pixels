@@ -323,9 +323,15 @@ CMakeFiles/SLIC.dir/SLIC/Slic.cpp.o: ../SLIC/Slic.cpp \
   /usr/include/c++/11/tr1/poly_hermite.tcc \
   /usr/include/c++/11/tr1/poly_laguerre.tcc \
   /usr/include/c++/11/tr1/riemann_zeta.tcc \
+  /usr/include/c++/11/cfloat \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/float.h \
   ../Include/ImageBase.hpp \
   /usr/include/c++/11/stdlib.h
 
+
+/usr/lib/gcc/x86_64-linux-gnu/11/include/float.h:
+
+/usr/include/c++/11/cfloat:
 
 /usr/include/c++/11/bits/vector.tcc:
 
