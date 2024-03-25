@@ -215,6 +215,12 @@ GDB_COMMAND:FILEPATH=/usr/bin/gdb
 //Directory to start our search in
 GDB_ROOT_DIR:PATH=
 
+<<<<<<< HEAD
+=======
+//Value Computed by CMake
+Tutorials_BINARY_DIR:STATIC=/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build
+
+>>>>>>> fcc71b580fd8f79ced3dc28b81bdbc1ea87a7501
 //Value Computed by CMake
 Tutorials_BINARY_DIR:STATIC=/home/orenu/Documents/Cours/TP_CCI/ProjetCompressionImage/projet_SuperPixels/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SLIC/build
 

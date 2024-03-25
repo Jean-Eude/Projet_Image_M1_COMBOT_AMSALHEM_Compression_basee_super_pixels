@@ -190,6 +190,23 @@ int main(int argc, char **argv) {
             
             int i = x*wsizec+y;
             
+             for (int k = std::max(x-1 , 0); k <= std::min(x+1 ,hsizec) ; k++) {
+                for (int l = std::max(y-1 , 0); l <= std::min(y+1 ,wsizec) ; l++) {
+                    
+                    clustercentres[i].indice_adj.push_back( k * wsizec + l);
+                 
+                }
+             }
+        }
+    }
+    
+    
+    
+    for (int x = 0; x < hsizec; x++) {
+        for (int y = 0; y < wsizec; y++) {
+            
+            int i = x*wsizec+y;
+            
             for (int k = std::max(x-1 , 0); k <= std::min(x+1 ,hsizec) ; k++) {
                 for (int l = std::max(y-1 , 0); l <= std::min(y+1 ,wsizec) ; l++) {
                     
@@ -229,15 +246,47 @@ int main(int argc, char **argv) {
                             minsp->indicespixels[x * width + y] = x * width + y;
                             //std::cout<< &c <<" " << minsp <<std::endl;
                         }
+for ( int i = 0 ;i < N ; i ++){
+    for (SuperPixel & c : clustercentres){
+        
+        for (int x = 0; x <height ; x++){
+            for (int y = 0 ; y <width; y++){
+                if (c.indicespixels[x * width + y] != -1){
+                    double minDist = FLT_MAX;
+                    SuperPixel* minsp;
+
+                    for (int i  : c.indice_adj){
+
+                        double dist = calculDistances(image[x * width + y] , clustercentres[i] , S , m);
+                        //std::cout<< dist <<" " << i <<std::endl;
+
+                        if (dist < minDist){
+                            
+                            minDist = dist;
+                            minsp = &clustercentres[i];
+
+                            
+                        }
+                    }
+                    
+                    if (minsp != &c){
+                        c.indicespixels[x * width + y] = -1;
+                        minsp->indicespixels[x * width + y] = x * width + y;
+                        //std::cout<< &c <<" " << minsp <<std::endl;
                     }
                     
                 }
+                  
             }
             calculMoyenne(c , image);
             RGBtoLab(c);
             
         }
+        calculMoyenne(c , image);
+        RGBtoLab(c);
+       
     }
+}
     
     
     for (SuperPixel & c : clustercentres){
@@ -246,6 +295,7 @@ int main(int argc, char **argv) {
                 
               imOut[ (int)image[i].x * 3][(int)image[i].y * 3] =  (int)c.R;
               imOut[ (int)image[i].x * 3][(int)image[i].y * 3 + 1] = (int) c.G;
+              imOut[ (int)image[i].x * 3][(int)image[i].y * 3 + 1 ] = (int) c.G;
               imOut[ (int)image[i].x * 3][(int)image[i].y * 3 + 2] =  (int)c.B;
                 
             }
@@ -258,6 +308,7 @@ int main(int argc, char **argv) {
         imOut[centerX * 3][centerY * 3 + 1] = 255; 
         imOut[centerX * 3][centerY * 3 + 2] = 255; 
     }
+
 
     double EQM_r, EQM_g, EQM_b, EQM;
     double PSNR;
