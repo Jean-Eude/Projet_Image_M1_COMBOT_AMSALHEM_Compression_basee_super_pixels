@@ -13,11 +13,11 @@
 *
 *******************************************************************************/
 
-#include "ImageBase.hpp"
+#include "ImageBase.h"
 #include "image_ppm.h"
 
 
-ImageBase::ImageBase()
+ImageBase::ImageBase(void)
 {
 	isValid = false;
 	init();
@@ -42,7 +42,7 @@ ImageBase::ImageBase(int imWidth, int imHeight, bool isColor)
 }
 
 
-ImageBase::~ImageBase()
+ImageBase::~ImageBase(void)
 {
 	reset();
 }
@@ -54,8 +54,8 @@ void ImageBase::init()
 		free(data);
 		free(dataD);
 	}
-   
-    data = 0;
+
+	data = 0;
 	dataD = 0;
 	height = width = nTaille = 0;
 	isValid = false;
@@ -185,10 +185,6 @@ void ImageBase::copy(const ImageBase &copy)
 		dataD[i] = copy.dataD[i];
 	}
 
-}
-
-void ImageBase::setData(int i ,unsigned char d){
-    data[i] = d;
 }
 
 unsigned char *ImageBase::operator[](int l)
