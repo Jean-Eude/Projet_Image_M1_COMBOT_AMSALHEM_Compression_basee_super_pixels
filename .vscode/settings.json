@@ -81,6 +81,7 @@
         "__bit_reference": "cpp",
         "__string": "cpp",
         "filesystem": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "save": "c"
     }
 }

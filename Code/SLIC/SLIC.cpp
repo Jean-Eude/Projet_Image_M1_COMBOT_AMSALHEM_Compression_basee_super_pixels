@@ -336,6 +336,7 @@ int main(int argc, char **argv)
 				superpixelImage[x * 3][y * 3 + 1] = nearestCluster.a;
 				superpixelImage[x * 3][y * 3 + 2] = nearestCluster.b;
 				*/
+
 				// Avec palette
 
 				superpixelImage[x * 3][y * 3] = superpixelColors[minClusterIndex].r;
@@ -447,5 +448,5 @@ int main(int argc, char **argv)
 
 
 
-	superpixelImage.save(cNomImgEcrite);
+	Gradient.save(cNomImgEcrite);
 }
