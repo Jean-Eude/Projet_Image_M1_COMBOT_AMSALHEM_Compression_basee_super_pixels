@@ -12,7 +12,4 @@ link_directories(../lib)
 file(GLOB SOURCES ../src/*.cpp ../src/ImGui/*.cpp)
 
 add_executable(main ${SOURCES})
-target_link_libraries(main SDL2 -static-libstdc++)
-
-
-
+target_link_libraries(main SDL2 -Ofast -static-libstdc++)

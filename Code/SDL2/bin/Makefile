@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/evan/Bureau/Projet_Image/bin
+CMAKE_SOURCE_DIR = "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/evan/Bureau/Projet_Image/bin
+CMAKE_BINARY_DIR = "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/evan/Bureau/Projet_Image/bin/CMakeFiles /home/evan/Bureau/Projet_Image/bin//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin/CMakeFiles" "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/evan/Bureau/Projet_Image/bin/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -129,269 +129,269 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-home/evan/Bureau/Projet_Image/src/GUI.o: home/evan/Bureau/Projet_Image/src/GUI.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/GUI.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/GUI.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.o
 
-home/evan/Bureau/Projet_Image/src/GUI.i: home/evan/Bureau/Projet_Image/src/GUI.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/GUI.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/GUI.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.i
 
-home/evan/Bureau/Projet_Image/src/GUI.s: home/evan/Bureau/Projet_Image/src/GUI.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/GUI.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/GUI.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/GUI.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.o: home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.i: home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.s: home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.o: home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.i: home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.s: home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.cpp.s
 
-home/evan/Bureau/Projet_Image/src/ImageBase.o: home/evan/Bureau/Projet_Image/src/ImageBase.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/ImageBase.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImageBase.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.o
 
-home/evan/Bureau/Projet_Image/src/ImageBase.i: home/evan/Bureau/Projet_Image/src/ImageBase.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/ImageBase.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImageBase.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.i
 
-home/evan/Bureau/Projet_Image/src/ImageBase.s: home/evan/Bureau/Projet_Image/src/ImageBase.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/ImageBase.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/ImageBase.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/ImageBase.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.cpp.s
 
-home/evan/Bureau/Projet_Image/src/Window.o: home/evan/Bureau/Projet_Image/src/Window.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/Window.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/Window.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.o
 
-home/evan/Bureau/Projet_Image/src/Window.i: home/evan/Bureau/Projet_Image/src/Window.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/Window.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/Window.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.i
 
-home/evan/Bureau/Projet_Image/src/Window.s: home/evan/Bureau/Projet_Image/src/Window.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/Window.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/Window.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/Window.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.cpp.s
 
-home/evan/Bureau/Projet_Image/src/main.o: home/evan/Bureau/Projet_Image/src/main.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/main.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.o: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.o
 
 # target to build an object file
-home/evan/Bureau/Projet_Image/src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/main.cpp.o
-.PHONY : home/evan/Bureau/Projet_Image/src/main.cpp.o
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.o
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.o
 
-home/evan/Bureau/Projet_Image/src/main.i: home/evan/Bureau/Projet_Image/src/main.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/main.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.i: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.i
 
 # target to preprocess a source file
-home/evan/Bureau/Projet_Image/src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/main.cpp.i
-.PHONY : home/evan/Bureau/Projet_Image/src/main.cpp.i
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.i
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.i
 
-home/evan/Bureau/Projet_Image/src/main.s: home/evan/Bureau/Projet_Image/src/main.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/main.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.s: home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.s
 
 # target to generate assembly for a file
-home/evan/Bureau/Projet_Image/src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/Projet_Image/src/main.cpp.s
-.PHONY : home/evan/Bureau/Projet_Image/src/main.cpp.s
+home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.s
+.PHONY : home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.cpp.s
 
 # Help Target
 help:
@@ -402,39 +402,39 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... main"
-	@echo "... home/evan/Bureau/Projet_Image/src/GUI.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/GUI.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/GUI.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/ImGuiFileDialog.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_draw.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdl2.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_impl_sdlrenderer2.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_tables.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImGui/imgui_widgets.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImageBase.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImageBase.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/ImageBase.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/Window.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/Window.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/Window.s"
-	@echo "... home/evan/Bureau/Projet_Image/src/main.o"
-	@echo "... home/evan/Bureau/Projet_Image/src/main.i"
-	@echo "... home/evan/Bureau/Projet_Image/src/main.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/GUI.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/ImGuiFileDialog.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_draw.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdl2.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_impl_sdlrenderer2.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_tables.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImGui/imgui_widgets.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/ImageBase.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/Window.s"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.o"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.i"
+	@echo "... home/evan/Bureau/M1/Sem2/Projet_Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/src/main.s"
 .PHONY : help
 
 

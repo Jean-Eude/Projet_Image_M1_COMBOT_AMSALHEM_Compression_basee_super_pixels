@@ -59,3 +59,21 @@ bool Window::getDone() {
 void Window::setDone(bool newdone) {
     this->done = newdone;
 }
+
+void Window::destroyTexture() {
+    SDL_DestroyTexture(frameBuffer);
+    frameBuffer = nullptr;
+}
+
+void Window::createTexture(Uint32 format, int access, int textureWidth, int textureHeight) {
+    if (frameBuffer != nullptr) {
+        SDL_DestroyTexture(frameBuffer);
+        frameBuffer = nullptr;
+    }
+
+    // Créer une nouvelle texture avec les spécifications données
+    frameBuffer = SDL_CreateTexture(renderer, format, access, textureWidth, textureHeight);
+    if (frameBuffer == nullptr) {
+        printf("Erreur lors de la création de la texture : %s\n", SDL_GetError());
+    }
+}

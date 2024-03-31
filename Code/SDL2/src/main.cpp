@@ -1,7 +1,6 @@
 #include <Window.h>
 #include <GUI.h>
 #include <ImageBase.h>
-#include <SLIC.h>
 
 #include <string>
 #include <iostream>
@@ -10,7 +9,54 @@
 #include <cmath>
 
 
-std::mutex mtx;
+#include <SLIC.h>
+
+
+void InterNN(double imgX, double imgY, ImageBase& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
+    int xNearest = static_cast<int>(round(imgX));
+    int yNearest = static_cast<int>(round(imgY));
+
+    xNearest = std::max(0, std::min(xNearest, imIn.getWidth() - 1));
+    yNearest = std::max(0, std::min(yNearest, imIn.getHeight() - 1));
+
+    *r = imIn[yNearest * 3][xNearest * 3];
+    *g = imIn[yNearest * 3][xNearest * 3 + 1];
+    *b = imIn[yNearest * 3][xNearest * 3 + 2];
+}
+
+void InterBill(double imgX, double imgY, int size, ImageBase& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
+    double imgX_original = static_cast<double>(imgX) / static_cast<double>(size) * imIn.getWidth();
+    double imgY_original = static_cast<double>(imgY) / static_cast<double>(size) * imIn.getHeight();
+
+    int x1 = static_cast<int>(imgX_original);
+    int y1 = static_cast<int>(imgY_original);
+    int x2 = std::min(x1 + 1, imIn.getWidth() - 1);
+    int y2 = std::min(y1 + 1, imIn.getHeight() - 1);
+
+    double dx = imgX_original - x1;
+    double dy = imgY_original - y1;
+
+    uint8_t p1_r = imIn[y1 * 3][x1 * 3];
+    uint8_t p1_g = imIn[y1 * 3][x1 * 3 + 1];
+    uint8_t p1_b = imIn[y1 * 3][x1 * 3 + 2];
+
+    uint8_t p2_r = imIn[y1 * 3][x2 * 3];
+    uint8_t p2_g = imIn[y1 * 3][x2 * 3 + 1];
+    uint8_t p2_b = imIn[y1 * 3][x2 * 3 + 2];
+
+    uint8_t p3_r = imIn[y2 * 3][x1 * 3];
+    uint8_t p3_g = imIn[y2 * 3][x1 * 3 + 1];
+    uint8_t p3_b = imIn[y2 * 3][x1 * 3 + 2];
+
+    uint8_t p4_r = imIn[y2 * 3][x2 * 3];
+    uint8_t p4_g = imIn[y2 * 3][x2 * 3 + 1];
+    uint8_t p4_b = imIn[y2 * 3][x2 * 3 + 2];
+
+    *r = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_r + dx * (1 - dy) * p2_r + (1 - dx) * dy * p3_r + dx * dy * p4_r);
+    *g = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_g + dx * (1 - dy) * p2_g + (1 - dx) * dy * p3_g + dx * dy * p4_g);
+    *b = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_b + dx * (1 - dy) * p2_b + (1 - dx) * dy * p3_b + dx * dy * p4_b);
+}
+
 
 void draw_Pixel(uint8_t r, uint8_t g, uint8_t b, int x, int y, uint32_t *buffer, int width, int height) {
     uint8_t ir = r;
@@ -18,271 +64,183 @@ void draw_Pixel(uint8_t r, uint8_t g, uint8_t b, int x, int y, uint32_t *buffer,
     uint8_t ib = b;
 
     uint32_t pixel = (ir << 16) | (ig << 8) | ib;
-    buffer[(height - 1 - y) * width + x] = pixel;
+    buffer[y * width + x] = pixel;
 }
 
-double calculate_entropy(int *histogram, int size) {
-    double entropy = 0.0;
-    for (int i = 0; i < size; ++i) {
-        if (histogram[i] != 0) {
-            double probability = static_cast<double>(histogram[i]) / size;
-            entropy = probability * std::log2(probability);
-        }
-    }
-    return entropy;
-}
-
-// Fonction pour calculer l'entropie pour chaque canal de couleur
-void calculate_entropy_window(uint32_t *buffer, int width, int height, double &entroR, double &entroG, double &entroB) {
-    int histogramR[256] = {0};
-    int histogramG[256] = {0};
-    int histogramB[256] = {0};
-
-    for (int i = 0; i < width * height; ++i) {
-        uint8_t r = (buffer[i] >> 16) & 0xFF;
-        uint8_t g = (buffer[i] >> 8) & 0xFF;
-        uint8_t b = buffer[i] & 0xFF;
-
-        histogramR[r]++;
-        histogramG[g]++;
-        histogramB[b]++;
-    }
-
-    entroR = calculate_entropy(histogramR, 256);
-    entroG = calculate_entropy(histogramG, 256);
-    entroB = calculate_entropy(histogramB, 256);
-}
-
-int main(int, char**) {
-    ImageBase imIn;
-    imIn.load("lena.ppm");
-
+int main(int argc, char* argv[]) {
     int width = 1280, height = 720;
-    int Orwidth = width, Orheight = height;
+    bool imageModif = true;
+    int size = 256;
+    int previousSize = size;
+    uint8_t r = 255, g = 255, b = 255; 
 
-    Window window("Projet Image - Compression basée superpixels", width, height);
+    ImageBase imIn;
+    imIn.load("../Assets/lena.ppm");
+    bool imageLoaded = true;
+
+    Window window("Projet Image - Compression basee superpixels", width, height);
     GUI gui(window);
+
+    // Méthodes d'interpolation
+    bool interNN = true;
+    bool interBi = false;
+    int curr_Redim = 0;
+
+    // Algo superpixels
+    bool algoRien = true;
+    bool algoSlic = false;
+    int curr_Algo = 0;
+
+    // Nombre de superpixels
+    int K = 1;
+    // compacité
+    int m = 1;
+    // Voisinage
+    int n = 3;  // 3 de base
+    int nbIter = 1;
+
+    ImageBase imOut(size, size, imIn.getColor());
+    ImageBase L(size, size, imIn.getColor());
+
+
+    // Méthodes de compression
+    bool compRien = true;
+    bool compPal = true;
+    int curr_comp = 0;
+
+
 
     void* pixels;
     int pitch;
-
-    int curr_Redim = 0;
-    int curr_Algo = 0;
-    int curr_Comp = 0;
-
-    // Initialisation de ImGui
+    uint32_t* buffer;
+    char inputBuffer[256] = ""; 
     gui.setupGUI();
 
-    // Booléens
-    bool adaptationImg = false;
-
-    bool imageModif = true;
-    bool interPPV = true;
-    bool interBil = false;
-
-    bool SPP_rien = true;
-    bool SPP_SLIC = false;
-    bool SPP_QCT = false;
-    bool SPP_TASP = false;
-
-    bool Comp_rien = true;
-    bool Comp_pal = false;
-
-    // Champ de texte
-    char inputBuffer[256] = ""; 
-
-    int S = 4;
-    int N = 1;
-    int m = 1;
-
-
-    uint8_t r, g, b;
-    double entroR, entroG, entroB;
-
-    // Boucle de rendu
-    while (!window.getDone())
-    {
+    #pragma omp parallel while
+    while (!window.getDone()) {
         SDL_Event event;
-        while (SDL_PollEvent(&event))
-        {
+        while (SDL_PollEvent(&event)) {
             ImGui_ImplSDL2_ProcessEvent(&event);
             if (event.type == SDL_QUIT)
                 window.setDone(true);
             if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window.getWindow()))
                 window.setDone(true);
-            if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r) {
-                SPP_SLIC = true;
-            }
         }
 
-        if (imageModif)
-        {
+        int squareHeight = (height - size) / 2;
+        int offset = (width - 2 * size) / 4;
+
+        int squareWidth1 = offset;
+        int squareWidth2 = width / 2 + offset;
+
+        if (imageModif) {
+            window.destroyTexture();
+            window.createTexture(SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, width, height);
+
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
-            uint32_t* buffer = static_cast<uint32_t*>(pixels);
+            buffer = static_cast<uint32_t*>(pixels);
 
-            int windowWidth = window.getWidth();
-            int windowHeight = window.getHeight();
+            #pragma omp parallel for
+            for (int x = squareWidth1; x < squareWidth1 + size; x++) {
+                for (int y = squareHeight; y < squareHeight + size; y++) {
+                    int imgX = x - squareWidth1;
+                    int imgY = y - squareHeight;
 
-            double echelleX = static_cast<double>(windowWidth) / imIn.getWidth();
-            double echelleY = static_cast<double>(windowHeight) / imIn.getHeight();
-
-
-            for (int y = 0; y < windowHeight; ++y)
-            {
-                for (int x = 0; x < windowWidth; ++x)
-                {
-                    // Plus proche voisins 
-                    if(interPPV) {
-                        double srcX = x / echelleX;
-                        double srcY = imIn.getHeight() - (y / echelleY) - 1;
-
-                        int srcXInt = static_cast<int>(srcX);
-                        int srcYInt = static_cast<int>(srcY);
-                        srcXInt = std::min(std::max(srcXInt, 0), imIn.getWidth() - 1);
-                        srcYInt = std::min(std::max(srcYInt, 0), imIn.getHeight() - 1);
-
-                        uint8_t r = imIn[srcYInt * 3][srcXInt * 3];
-                        uint8_t g = imIn[srcYInt * 3][srcXInt * 3 + 1];
-                        uint8_t b = imIn[srcYInt * 3][srcXInt * 3 + 2];
-
-                        draw_Pixel(r, g, b, x, y, buffer, windowWidth, windowHeight);
-                    }
-
-                    // Interpolation billinéaire 
-                    else if (interBil) {
-                        double srcX = x / echelleX;
-                        double srcY = imIn.getHeight() - (y / echelleY) - 1;
-
-                        int srcXInt = static_cast<int>(srcX);
-                        int srcYInt = static_cast<int>(srcY);
-
-                        srcXInt = std::min(std::max(srcXInt, 0), imIn.getWidth() - 1);
-                        srcYInt = std::min(std::max(srcYInt, 0), imIn.getHeight() - 1);
-
-                        int srcXIntNext = std::min(srcXInt + 1, imIn.getWidth() - 1);
-                        int srcYIntNext = std::min(srcYInt + 1, imIn.getHeight() - 1);
-
-                        double deltaX = srcX - srcXInt;
-                        double deltaY = srcY - srcYInt;
-
-                        uint8_t r00 = imIn[srcYInt * 3][srcXInt * 3];
-                        uint8_t g00 = imIn[srcYInt * 3][srcXInt * 3 + 1];
-                        uint8_t b00 = imIn[srcYInt * 3][srcXInt * 3 + 2];
-
-                        uint8_t r01 = imIn[srcYInt * 3][srcXIntNext * 3];
-                        uint8_t g01 = imIn[srcYInt * 3][srcXIntNext * 3 + 1];
-                        uint8_t b01 = imIn[srcYInt * 3][srcXIntNext * 3 + 2];
-
-                        uint8_t r10 = imIn[srcYIntNext * 3][srcXInt * 3];
-                        uint8_t g10 = imIn[srcYIntNext * 3][srcXInt * 3 + 1];
-                        uint8_t b10 = imIn[srcYIntNext * 3][srcXInt * 3 + 2];
-
-                        uint8_t r11 = imIn[srcYIntNext * 3][srcXIntNext * 3];
-                        uint8_t g11 = imIn[srcYIntNext * 3][srcXIntNext * 3 + 1];
-                        uint8_t b11 = imIn[srcYIntNext * 3][srcXIntNext * 3 + 2];
-
-                        double r = (1 - deltaX) * (1 - deltaY) * r00 + deltaX * (1 - deltaY) * r01 +
-                                (1 - deltaX) * deltaY * r10 + deltaX * deltaY * r11;
-
-                        double g = (1 - deltaX) * (1 - deltaY) * g00 + deltaX * (1 - deltaY) * g01 +
-                                (1 - deltaX) * deltaY * g10 + deltaX * deltaY * g11;
-
-                        double b = (1 - deltaX) * (1 - deltaY) * b00 + deltaX * (1 - deltaY) * b01 +
-                                (1 - deltaX) * deltaY * b10 + deltaX * deltaY * b11;
-
-                        uint8_t r_final = static_cast<uint8_t>(r);
-                        uint8_t g_final = static_cast<uint8_t>(g);
-                        uint8_t b_final = static_cast<uint8_t>(b);
-
-                        draw_Pixel(r_final, g_final, b_final, x, y, buffer, windowWidth, windowHeight);
-                    }
-
-                    if(SPP_SLIC) {
-                        std::vector<Pixel> image;
-                        image.resize(window.getWidth() * window.getHeight());
-                        std::vector<SuperPixel> clustercentres;
-    
-                        int hsizec = 0;
-                        int wsizec = 0;
-    
-                        for (int x = 0; x < window.getHeight(); x+=S) {
-                            hsizec++;
-                            wsizec = 0;
-                            for (int y = 0; y < window.getWidth(); y+=S) {
-                                wsizec++;
-                                SuperPixel sp(window.getHeight() * window.getWidth());
-                                for (int i = 0; i<S ; i++){
-                                    for (int j = 0; j<S ; j++){
-                                        Pixel p((x+i) , (y+j) , imIn[(x+i)*3][ (y+j)*3] , imIn[(x+i)*3][ (y+j)*3+1]  , imIn[(x+i)*3][ (y+j)*3+2]);
-                                        RGBtoLab(p);
-                                        image[(x+i) * window.getWidth() + (y+j)] = p;
-                                        sp.indicespixels[(x+i) * window.getWidth() + (y+j)] = (x + i) * window.getWidth() + y + j;
-                                    }
-                                }
-                                calculMoyenne(sp, image);
-                                clustercentres.push_back(sp);
-                                RGBtoLab(sp);
-                            }
-                        }
-    
-                        for (int x = 0; x < hsizec; x++) {
-                            for (int y = 0; y < wsizec; y++) {                
-                                int i = x*wsizec+y;
-                                for (int k = std::max(x-1 , 0); k <= std::min(x+1 ,hsizec) ; k++) {
-                                    for (int l = std::max(y-1 , 0); l <= std::min(y+1 ,wsizec) ; l++) {                          
-                                        clustercentres[i].indice_adj.push_back( k * wsizec + l);
-                                    }
-                                }
-                            }
-                        }
-    
-                        for ( int i = 0 ;i < N ; i ++){
-                            for (SuperPixel & c : clustercentres){                                
-                                for (int x = 0; x <window.getHeight() ; x++){
-                                    for (int y = 0 ; y < window.getWidth(); y++){
-                                        if (c.indicespixels[x * window.getWidth() + y] != -1){
-                                            double minDist = FLT_MAX;
-                                            SuperPixel* minsp;
-                                            for (int i  : c.indice_adj){
-                                                double dist = calculDistances(image[x * window.getWidth() + y] , clustercentres[i] , S , m);
-                                                if (dist < minDist) { 
-                                                    minDist = dist;
-                                                    minsp = &clustercentres[i];
-                                                }
-                                            } if (minsp != &c){
-                                                c.indicespixels[x * window.getWidth() + y] = -1;
-                                                minsp->indicespixels[x * window.getWidth() + y] = x * window.getWidth() + y;
-                                            }
-                                        }
-                                    }
-                                }
-                                calculMoyenne(c, image);
-                                RGBtoLab(c);
-                            }
-                        }   
-    
-                        for (SuperPixel & c : clustercentres) {
-                            for (int i : c.indicespixels) {
-                                if (i != -1) {
-                                    draw_Pixel((int)c.R, (int)c.G, (int)c.B, i % window.getWidth(), i / window.getWidth(), buffer, windowWidth, windowHeight);
-                                }
-                            }
+                    if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
+                        if(interNN == true) {
+                            InterNN(static_cast<double>(imgX) / size * imIn.getWidth(), static_cast<double>(imgY) / size * imIn.getHeight(), imIn, &r, &g, &b);
+                        } else if(interBi == true) {
+                            InterBill(static_cast<double>(imgX), static_cast<double>(imgY), size, imIn, &r, &g, &b);
                         }
                     }
+
+                    draw_Pixel(r, g, b, x, y, buffer, width, height);
                 }
             }
 
-            //calculate_entropy_window(buffer, width, height, entroR, entroG, entroB);
+            #pragma omp parallel for collapse(2) schedule(static)
+            int startX = squareWidth2;
+            int endX = squareWidth2 + size;
+            int startY = squareHeight;
+            int endY = squareHeight + size;
+
+            for (int x = startX; x < endX; x++) {
+                int imgX = x - squareWidth2;
+                double imgXRatio = static_cast<double>(imgX) / size * imIn.getWidth();
+
+                for (int y = startY; y < endY; y++) {
+                    int imgY = y - squareHeight;
+                    double imgYRatio = static_cast<double>(imgY) / size * imIn.getHeight();
+
+                    if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
+                        if(interNN == true) {
+                            InterNN(static_cast<double>(imgX) / size * imIn.getWidth(), static_cast<double>(imgY) / size * imIn.getHeight(), imIn, &r, &g, &b);
+
+                            if(algoRien == true) {
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            } else if(algoSlic == true) {
+                                // Nombre de pixels de image
+	                            int N = imIn.getWidth() * imIn.getHeight();
+                                // Taille de chaque superpixels
+                                double tailleSP = static_cast<double>(N)/static_cast<double>(K);
+                                // Distance entre chaque superpixel
+                                int S = sqrt(tailleSP);
+                                // Liste des centres des clusters
+                                std::vector<Cluster> clusterCentres;
+
+
+                                for (int x = squareWidth1; x < squareWidth1 + size; x++) {
+                                    for (int y = squareHeight; y < squareHeight + size; y++) {
+                                        int imgX_N = x - squareWidth2;
+                                        int imgY_N = y - squareHeight;
+
+                                        if (imgX_N >= 0 && imgX_N < size && imgY_N >= 0 && imgY_N < size) {
+                                            uint32_t pixel = buffer[y * width + x];  
+                                            uint8_t r_s = (pixel >> 16) & 0xFF;     
+                                            uint8_t g_s = (pixel >> 8) & 0xFF; 
+                                            uint8_t b_s = pixel & 0xFF; 
+
+                                            imOut[imgY_N * 3][imgX_N * 3] = r_s;
+                                            imOut[imgY_N * 3][imgX_N * 3 + 1] = g_s;
+                                            imOut[imgY_N * 3][imgX_N * 3 + 2] = b_s;
+                                        }
+                                    }
+                                }
+
+                                RGBtoLab(imOut, L, 'L');
+
+                                draw_Pixel(255 - r, 255 - g, 255 - b, x, y, buffer, width, height);
+                            }
+                        } else if(interBi == true) {
+                            InterBill(static_cast<double>(imgX), static_cast<double>(imgY), size, imIn, &r, &g, &b);
+                            
+                            if(algoRien == true) {
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            } else if(algoSlic == true) {
+                                draw_Pixel(255 - r, 255 - g, 255 - b, x, y, buffer, width, height);
+                            }
+                        }
+                    }                    
+                }
+            } 
+
 
             SDL_UnlockTexture(window.getTexture());
             imageModif = false;
-        }
+        } 
 
         gui.beforeUpdate();
 
-        ImGui::Begin("Paramètres");
+        ImGui::Begin("Parametres");
         ImGui::Text("Paramètres généraux :");
         ImGui::Spacing();
+        ImGui::InputText("Nom du fichier", inputBuffer, sizeof(inputBuffer));
+        if (ImGui::SliderInt("Taille", &size, 0, width/2)) {
+            if (size != previousSize) {
+                previousSize = size;
+                imageModif = true;
+            }
+        }
         if (ImGui::Button("Load")) {
             IGFD::FileDialogConfig cfg;
             cfg.path = ".";
@@ -292,130 +250,111 @@ int main(int, char**) {
             if (ImGuiFileDialog::Instance()->IsOk()) { 
                 std::string cheminNom = ImGuiFileDialog::Instance()->GetFilePathName();
                 std::string cheminAccess = ImGuiFileDialog::Instance()->GetCurrentPath();
+                SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
+                buffer = static_cast<uint32_t*>(pixels);
 
                 std::cout << (char*)cheminNom.c_str() << std::endl;
                 imIn.load((char*)cheminNom.c_str());
-
-                interPPV = true;
-                interBil = false;
-
-                imageModif = true;
+                imageLoaded = true;
+                imageModif = true; 
             }
             ImGuiFileDialog::Instance()->Close();
         }
 
         ImGui::SameLine();
+
         if (ImGui::Button("Save")) {
-            void* pixels;
-            int pitch;
+            ImageBase imOut_Save(size, size, imIn.getColor());
+
+            uint32_t* buffere = static_cast<uint32_t*>(pixels);
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
-            uint32_t* buffer = static_cast<uint32_t*>(pixels);
 
-            ImageBase imOut(window.getWidth(), window.getHeight(), imIn.getColor());
+            for (int x = squareWidth2; x < squareWidth2 + size; x++) {
+                for (int y = squareHeight; y < squareHeight + size; y++) {
+                    int imgX = x - squareWidth2;
+                    int imgY = y - squareHeight;
 
-            for (int y = 0; y < window.getHeight(); y++) {
-                for (int x = 0; x < window.getWidth(); x++) {
-                    uint32_t pixel = buffer[y * window.getWidth() + x];
-                    uint8_t r = (pixel >> 16) & 0xFF;
-                    uint8_t g = (pixel >> 8) & 0xFF;
-                    uint8_t b = pixel & 0xFF;
-                    imOut[y*3][x*3] = r;
-                    imOut[y*3][x*3+1] = g;
-                    imOut[y*3][x*3+2] = b;
+                    if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
+                        uint32_t pixel = buffere[y * width + x];  
+                        uint8_t r_s = (pixel >> 16) & 0xFF;     
+                        uint8_t g_s = (pixel >> 8) & 0xFF; 
+                        uint8_t b_s = pixel & 0xFF; 
+
+                        imOut_Save[imgY * 3][imgX * 3] = r_s;
+                        imOut_Save[imgY * 3][imgX * 3 + 1] = g_s;
+                        imOut_Save[imgY * 3][imgX * 3 + 2] = b_s;
+                    }
                 }
             }
-
+        
             SDL_UnlockTexture(window.getTexture());
+            
             if (strlen(inputBuffer) == 0) {
-                imOut.save("1.ppm");
+                imOut_Save.save("1.ppm");
             } else {
-                imOut.save(inputBuffer);
+                imOut_Save.save(inputBuffer);
             }
         }
-
-        ImGui::InputText("Nom du fichier", inputBuffer, sizeof(inputBuffer));
         ImGui::Spacing();
         ImGui::Separator();
-        ImGui::Text("Redimensionnement :");
+        ImGui::Text("Méthodes d'interpolation :");
+        const char* itemsRedim[] = { "Plus proche voisins", "Interpolation billinéaire"};
+        if(ImGui::Combo("Algorithme RD", &curr_Redim, itemsRedim, IM_ARRAYSIZE(itemsRedim))) {
+            std::string selected_item(itemsRedim[curr_Redim]);
 
-        if(window.getWidth() == Orwidth && window.getHeight() == Orheight) {
-            const char* itemsRedim[] = { "Plus proche voisins", "Interpolation billinéaire"};
-            if(ImGui::Combo("Algorithme", &curr_Redim, itemsRedim, IM_ARRAYSIZE(itemsRedim))) {
-                std::string selected_item(itemsRedim[curr_Redim]);
-
-                if(curr_Redim == 0) {
-                    interPPV = true;
-                    interBil = false;
-                } else if(curr_Redim == 1) {
-                    interPPV = false;
-                    interBil = true;
-                }
-                imageModif = true;
+            if(curr_Redim == 0) {
+                interNN = true;
+                interBi = false;
+            } else if(curr_Redim == 1) {
+                interNN = false;
+                interBi = true;
             }
+            imageModif = true;
         }
-
-        if(ImGui::Checkbox("Adapter la fenêtre à l'image", &adaptationImg)) {
-            if(adaptationImg) {
-                window.setWindowSize(imIn.getWidth(), imIn.getHeight());
-            } else {
-                window.setWindowSize(width, height);
-            }
-        }
-
-
         ImGui::Spacing();
         ImGui::Separator();
-        ImGui::Text("Algorithme basée superpixels :");
-        const char* itemsAlgo[] = { "Sans algorithme", "SLIC", "Quickshift", "TASP" };
-        if(ImGui::Combo("Algorithme superpixels", &curr_Algo, itemsAlgo, IM_ARRAYSIZE(itemsAlgo))) {
+        ImGui::Text("Algorithmes superpixels :");
+        const char* itemsAlgo[] = { "Rien", "SLIC"};
+        if(ImGui::Combo("Algorithme SP", &curr_Algo, itemsAlgo, IM_ARRAYSIZE(itemsAlgo))) {
             std::string selected_item(itemsAlgo[curr_Algo]);
 
             if(curr_Algo == 0) {
-                SPP_rien = true;
-                SPP_SLIC = false;
-                SPP_QCT = false;
-                SPP_TASP = false;        
-            } else if(curr_Algo == 1) {
-                SPP_rien = false;
-                SPP_SLIC = true;
-                SPP_QCT = false;
-                SPP_TASP = false;   
-            } else if(curr_Algo == 2) {
-                SPP_rien = false;
-                SPP_SLIC = false;
-                SPP_QCT = true;
-                SPP_TASP = false;   
-            } else if(curr_Algo == 3) {
-                SPP_rien = false;
-                SPP_SLIC = false;
-                SPP_QCT = false;
-                SPP_TASP = true;   
+                algoRien = true;
+                algoSlic = false;
+            } else if(curr_Algo == 1) { 
+                algoRien = false;
+                algoSlic = true;  
             }
+
             imageModif = true;
         }
+
+        if(algoSlic) {
+            ImGui::SliderInt("Nombre de superpixels", &K, 1, 500);
+            ImGui::SliderInt("Compacité", &m, 1, 500);
+            ImGui::SliderInt("Voisinage (Gradient)", &n, 1, 10);
+            ImGui::SliderInt("Nombre d'itérations", &nbIter, 1, 10);
+        }
+
         ImGui::Spacing();
         ImGui::Separator();
-        ImGui::Text("Méthode de compression :");
-        const char* itemsComp[] = { "Sans compression", "Compression par palette" };
-        if(ImGui::Combo("Méthode de compression", &curr_Comp, itemsComp, IM_ARRAYSIZE(itemsComp))) {
-            std::string selected_item(itemsComp[curr_Comp]);
 
-            if(curr_Comp == 0) {
+        ImGui::Text("Méthodes de compression :");
+        const char* itemsComp[] = { "Rien", "Compression palette"};
+        if(ImGui::Combo("Algorithmes Comp", &curr_comp, itemsComp, IM_ARRAYSIZE(itemsComp))) {
+            std::string selected_item(itemsComp[curr_comp]);
 
-            } else if(curr_Comp == 1) {
-
+            if(curr_comp == 0) {
+                compRien = true;
+                compPal = false;
+            } else if(curr_Algo == 1) { 
+                compRien = true;
+                compPal = false; 
             }
+
             imageModif = true;
         }
-        ImGui::Spacing();
-        ImGui::Separator();
-        ImGui::Text("Informations :");
-        ImGui::Spacing();
-        ImGui::Text("Entropie : %f", (entroR + entroG + entroB) / 3);
 
-        ImGui::Text("PSNR :");
-        ImGui::Text("EQM :");
-        ImGui::Text("Taux de compression :");
         ImGui::Spacing();
         ImGui::Separator();
 
@@ -432,6 +371,9 @@ int main(int, char**) {
     ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
+
+imOut.save("2.ppm");
+L.save("3.ppm");
 
     window.destroyWindow();
 

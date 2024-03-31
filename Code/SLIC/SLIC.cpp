@@ -3,6 +3,13 @@
 #include <iostream>
 #include <cmath>
 #include <algorithm>
+#include <set>
+#include <tuple>
+
+
+struct Palette {
+	int r, g, b;
+};
 
 struct Cluster {
     int x, y;
@@ -151,7 +158,7 @@ int main(int argc, char **argv)
 
 	// Nombre de pixels de image
 	int N = imIn.getWidth() * imIn.getHeight();
-	std::cout << N << std::endl;
+	//std::cout << N << std::endl;
 
 	// Taille de chaque superpixels
 	double tailleSP = static_cast<double>(N)/static_cast<double>(K);
@@ -160,6 +167,23 @@ int main(int argc, char **argv)
 
 	// Liste des centres des clusters
 	std::vector<Cluster> clusterCentres;
+
+	// Liste des couleurs palettes
+	std::vector<Palette> superpixelColors;
+
+
+	// Calcul du nombre de couleurs de l'image
+	std::set<std::tuple<int, int, int>> CouleursUniques;
+
+	for (int x = 0; x < imIn.getHeight(); x++) {
+		for (int y = 0; y < imIn.getWidth(); y++) {
+			int r = imIn[x*3][y*3];
+			int g = imIn[x*3][y*3+1];
+			int b = imIn[x*3][y*3+2];
+			
+			CouleursUniques.insert(std::make_tuple(r, g, b));
+		}
+	}
 
 	// Image de base
 	for(int x = 0; x < imIn.getHeight(); x++) {
@@ -181,6 +205,10 @@ int main(int argc, char **argv)
 		for(int y = S; y < imOut.getWidth() - S; y+=S) {
 			Cluster p = {x, y, imOut[x*3][y*3], imOut[x*3][y*3+1], imOut[x*3][y*3+2]};
 			clusterCentres.push_back(p);
+
+			// Compression palette
+			Palette color = {imOut[x*3][y*3], imOut[x*3][y*3+1], imOut[x*3][y*3+2]};
+			superpixelColors.push_back(color);
 		}
 	}
 
@@ -231,9 +259,16 @@ int main(int argc, char **argv)
 				Cluster& nearestCluster = clusterCentres[minClusterIndex];
 				nearestCluster.addPixelIndex(x, y); 
 
+								/*
 				superpixelImage[x * 3][y * 3] = nearestCluster.L;
 				superpixelImage[x * 3][y * 3 + 1] = nearestCluster.a;
 				superpixelImage[x * 3][y * 3 + 2] = nearestCluster.b;
+				*/
+				// Avec palette
+
+				superpixelImage[x * 3][y * 3] = superpixelColors[minClusterIndex].r;
+				superpixelImage[x * 3][y * 3 + 1] = superpixelColors[minClusterIndex].g;
+				superpixelImage[x * 3][y * 3 + 2] = superpixelColors[minClusterIndex].b;
 			}
 		}
 
@@ -274,6 +309,7 @@ int main(int argc, char **argv)
 		}
 	}
 
+
 	// Pour avoir les contours
 	ImageBase Le(imIn.getWidth(), imIn.getHeight(), false);	
 	RGBtoLab(superpixelImage, Le, 'L');
@@ -305,6 +341,23 @@ int main(int argc, char **argv)
 		superpixelImage[x * 3][y * 3 + 1] = 255;
 		superpixelImage[x * 3][y * 3 + 2] = 255;
 	}
+
+
+	// Affichage du nombre de couleurs uniques et du nombre de couleurs dans la palette de superpixels
+	std::cout << "Nombre de couleurs uniques : " << CouleursUniques.size() << std::endl;
+	std::cout << "Taille de la palette de superpixels : " << superpixelColors.size() << std::endl;
+
+	// Calcul de la taille de l'image originale
+	uint long tailleOriginale = (uint long)imIn.getWidth() * (uint long)imIn.getHeight() * (uint long)CouleursUniques.size();
+	// Calcul de la taille de l'image compressée avec la compression de palette
+	long double tailleCompresséePalette = clusterCentres.size() * superpixelColors.size();
+
+	// Calcul du taux de compression
+	long double tauxCompressionPalette = tailleOriginale / tailleCompresséePalette;
+	std::cout << "Taille originale : " << tailleOriginale << std::endl;
+	std::cout << "Taux de compression avec compression de palette : " << tauxCompressionPalette << std::endl;
+
+
 
 	superpixelImage.save(cNomImgEcrite);
 }

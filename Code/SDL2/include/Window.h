@@ -21,6 +21,8 @@ class Window {
 
         bool getDone();
         void setDone(bool newdone);
+        void destroyTexture();
+        void createTexture(Uint32 format, int access, int textureWidth, int textureHeight);
 
     private:
         int width, height;
