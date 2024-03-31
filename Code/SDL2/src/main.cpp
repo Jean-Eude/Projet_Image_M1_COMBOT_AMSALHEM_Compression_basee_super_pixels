@@ -99,15 +99,12 @@ int main(int argc, char* argv[]) {
     int n = 3;  // 3 de base
     int nbIter = 1;
 
-    ImageBase imOut(size, size, imIn.getColor());
-    ImageBase L(size, size, imIn.getColor());
-
-
     // Méthodes de compression
     bool compRien = true;
     bool compPal = true;
     int curr_comp = 0;
 
+    // Saves
 
 
     void* pixels;
@@ -115,6 +112,35 @@ int main(int argc, char* argv[]) {
     uint32_t* buffer;
     char inputBuffer[256] = ""; 
     gui.setupGUI();
+
+
+
+    // Toutes variables
+    int squareHeight = 0;
+    int offset = 0;
+    int squareWidth1 = 0;
+    int squareWidth2 = 0;
+    int imgX = 0;
+    int imgY = 0;
+    int startX = 0;
+    int endX = 0;
+    int startY = 0;
+    int endY = 0;
+    double imgXRatio = 0.;
+    double imgYRatio = 0.;
+    // Nombre de pixels de image
+    int N = 0;
+
+    // Taille de chaque superpixels
+    double tailleSP = 0.;
+    // Distance entre chaque superpixel
+    int S = 0;
+    
+    std::vector<Cluster> clusterCentres;
+
+    int imgX_N = 0;
+    int imgY_N = 0;
+
 
     #pragma omp parallel while
     while (!window.getDone()) {
@@ -127,11 +153,12 @@ int main(int argc, char* argv[]) {
                 window.setDone(true);
         }
 
-        int squareHeight = (height - size) / 2;
-        int offset = (width - 2 * size) / 4;
+        squareHeight = (height - size) / 2;
+        offset = (width - 2 * size) / 4;
 
-        int squareWidth1 = offset;
-        int squareWidth2 = width / 2 + offset;
+        squareWidth1 = offset;
+        squareWidth2 = width / 2 + offset;
+
 
         if (imageModif) {
             window.destroyTexture();
@@ -140,11 +167,11 @@ int main(int argc, char* argv[]) {
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
             buffer = static_cast<uint32_t*>(pixels);
 
-            #pragma omp parallel for
+            #pragma omp parallel for collapse(2) schedule(static)
             for (int x = squareWidth1; x < squareWidth1 + size; x++) {
                 for (int y = squareHeight; y < squareHeight + size; y++) {
-                    int imgX = x - squareWidth1;
-                    int imgY = y - squareHeight;
+                    imgX = x - squareWidth1;
+                    imgY = y - squareHeight;
 
                     if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
                         if(interNN == true) {
@@ -158,56 +185,87 @@ int main(int argc, char* argv[]) {
                 }
             }
 
-            #pragma omp parallel for collapse(2) schedule(static)
-            int startX = squareWidth2;
-            int endX = squareWidth2 + size;
-            int startY = squareHeight;
-            int endY = squareHeight + size;
+            startX = squareWidth2;
+            endX = squareWidth2 + size;
+            startY = squareHeight;
+            endY = squareHeight + size;
 
+            #pragma omp parallel for collapse(2) schedule(static)
             for (int x = startX; x < endX; x++) {
-                int imgX = x - squareWidth2;
-                double imgXRatio = static_cast<double>(imgX) / size * imIn.getWidth();
+                imgX = x - squareWidth2;
+                imgXRatio = static_cast<double>(imgX) / size * imIn.getWidth();
 
                 for (int y = startY; y < endY; y++) {
                     int imgY = y - squareHeight;
-                    double imgYRatio = static_cast<double>(imgY) / size * imIn.getHeight();
+                    imgYRatio = static_cast<double>(imgY) / size * imIn.getHeight();
 
                     if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
-                        if(interNN == true) {
+                        if (interNN == true) {
                             InterNN(static_cast<double>(imgX) / size * imIn.getWidth(), static_cast<double>(imgY) / size * imIn.getHeight(), imIn, &r, &g, &b);
 
-                            if(algoRien == true) {
+                            if (algoRien == true) {
                                 draw_Pixel(r, g, b, x, y, buffer, width, height);
-                            } else if(algoSlic == true) {
-                                // Nombre de pixels de image
-	                            int N = imIn.getWidth() * imIn.getHeight();
-                                // Taille de chaque superpixels
-                                double tailleSP = static_cast<double>(N)/static_cast<double>(K);
-                                // Distance entre chaque superpixel
-                                int S = sqrt(tailleSP);
-                                // Liste des centres des clusters
-                                std::vector<Cluster> clusterCentres;
+                            } else if (algoSlic == true) {
+                                if(size != previousSize) {
+                                    ImageBase imOut(size, size, imIn.getColor());
+                                    ImageBase L(size, size, false);
+                                 	ImageBase Gradient(size, size, false);
+                                    ImageBase superpixelImage(size, size, imIn.getColor());
 
 
-                                for (int x = squareWidth1; x < squareWidth1 + size; x++) {
-                                    for (int y = squareHeight; y < squareHeight + size; y++) {
-                                        int imgX_N = x - squareWidth2;
-                                        int imgY_N = y - squareHeight;
+                                    // Nombre de pixels de image
+                                    N = imOut.getWidth() * imOut.getHeight();
 
-                                        if (imgX_N >= 0 && imgX_N < size && imgY_N >= 0 && imgY_N < size) {
-                                            uint32_t pixel = buffer[y * width + x];  
-                                            uint8_t r_s = (pixel >> 16) & 0xFF;     
-                                            uint8_t g_s = (pixel >> 8) & 0xFF; 
-                                            uint8_t b_s = pixel & 0xFF; 
+                                    // Taille de chaque superpixels
+                                    tailleSP = static_cast<double>(N)/static_cast<double>(K);
+                                    // Distance entre chaque superpixel
+                                    S = sqrt(tailleSP);
+                                    
+                                    /*
+                                    for (int px = squareWidth1; px < squareWidth1 + size; px++) {
+                                        for (int py = squareHeight; py < squareHeight + size; py++) {
+                                            imgX_N = px - squareWidth1;
+                                            imgY_N = py - squareHeight;
 
-                                            imOut[imgY_N * 3][imgX_N * 3] = r_s;
-                                            imOut[imgY_N * 3][imgX_N * 3 + 1] = g_s;
-                                            imOut[imgY_N * 3][imgX_N * 3 + 2] = b_s;
+                                            if (imgX_N >= 0 && imgX_N < size && imgY_N >= 0 && imgY_N < size) {
+                                                uint32_t pixel = buffer[py * width + px];
+                                                uint8_t r_s = (pixel >> 16) & 0xFF;
+                                                uint8_t g_s = (pixel >> 8) & 0xFF;
+                                                uint8_t b_s = pixel & 0xFF;
+
+                                                imOut[imgY_N * 3][imgX_N * 3] = r_s;
+                                                imOut[imgY_N * 3][imgX_N * 3 + 1] = g_s;
+                                                imOut[imgY_N * 3][imgX_N * 3 + 2] = b_s;
+                                            }
                                         }
+                                    }*/
+                                    OriginalImage(imIn, imOut, squareWidth1, squareHeight, buffer, size, width);
+                                    RGBtoLab(imOut, L, 'L');
+                                    Convert2Gradient(L, Gradient);
+                                    perturbClusterCenters(imIn, imOut, Gradient, n, clusterCentres);   
+                                    
+                                	std::vector<std::vector<double>> dis(size, std::vector<double>(size, std::numeric_limits<double>::max()));
+                                    for(auto& row : dis) {
+                                        std::fill(row.begin(), row.end(), std::numeric_limits<double>::max());
                                     }
-                                }
 
-                                RGBtoLab(imOut, L, 'L');
+                                    std::vector<std::vector<int>> clusterIndices(size, std::vector<int>(size, -1));
+                                    std::vector<std::vector<int>> contourImage(size, std::vector<int>(size, 0));
+
+
+                                    for (int iter = 0; iter < nbIter; iter++) {
+                                        // Réinitialisation des pixels appartenant à chaque cluster
+                                        for (auto& c : clusterCentres) {
+                                            c.pixelIndices.clear(); 
+                                        }
+                                        
+       
+
+
+                                    }
+
+                        
+                                }
 
                                 draw_Pixel(255 - r, 255 - g, 255 - b, x, y, buffer, width, height);
                             }
@@ -224,10 +282,10 @@ int main(int argc, char* argv[]) {
                 }
             } 
 
-
             SDL_UnlockTexture(window.getTexture());
             imageModif = false;
-        } 
+        }
+
 
         gui.beforeUpdate();
 
@@ -235,11 +293,17 @@ int main(int argc, char* argv[]) {
         ImGui::Text("Paramètres généraux :");
         ImGui::Spacing();
         ImGui::InputText("Nom du fichier", inputBuffer, sizeof(inputBuffer));
+        previousSize = size;
+
         if (ImGui::SliderInt("Taille", &size, 0, width/2)) {
-            if (size != previousSize) {
-                previousSize = size;
-                imageModif = true;
-            }
+
+            std::cout << "----------" << std::endl;
+            imageModif = true;
+            std::cout << size << std::endl;
+            std::cout << previousSize << std::endl;
+
+            std::cout << "----------" << std::endl;
+
         }
         if (ImGui::Button("Load")) {
             IGFD::FileDialogConfig cfg;
@@ -266,16 +330,17 @@ int main(int argc, char* argv[]) {
         if (ImGui::Button("Save")) {
             ImageBase imOut_Save(size, size, imIn.getColor());
 
-            uint32_t* buffere = static_cast<uint32_t*>(pixels);
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
+            uint32_t* buffer = static_cast<uint32_t*>(pixels);
 
+            #pragma omp parallel for collapse(2) schedule(static)
             for (int x = squareWidth2; x < squareWidth2 + size; x++) {
                 for (int y = squareHeight; y < squareHeight + size; y++) {
                     int imgX = x - squareWidth2;
                     int imgY = y - squareHeight;
 
                     if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
-                        uint32_t pixel = buffere[y * width + x];  
+                        uint32_t pixel = buffer[y * width + x];  
                         uint8_t r_s = (pixel >> 16) & 0xFF;     
                         uint8_t g_s = (pixel >> 8) & 0xFF; 
                         uint8_t b_s = pixel & 0xFF; 
@@ -372,8 +437,7 @@ int main(int argc, char* argv[]) {
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 
-imOut.save("2.ppm");
-L.save("3.ppm");
+
 
     window.destroyWindow();
 

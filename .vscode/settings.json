@@ -77,6 +77,10 @@
         "queue": "cpp",
         "stack": "cpp",
         "regex": "cpp",
-        "shared_mutex": "cpp"
+        "shared_mutex": "cpp",
+        "__bit_reference": "cpp",
+        "__string": "cpp",
+        "filesystem": "cpp",
+        "ios": "cpp"
     }
 }
