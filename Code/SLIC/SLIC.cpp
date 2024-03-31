@@ -163,7 +163,7 @@ int main(int argc, char **argv)
 	// Taille de chaque superpixels
 	double tailleSP = static_cast<double>(N)/static_cast<double>(K);
 	// Distance entre chaque superpixel
-	int S = sqrt(tailleSP);
+	double S = sqrt(tailleSP);
 
 	// Liste des centres des clusters
 	std::vector<Cluster> clusterCentres;
@@ -201,8 +201,8 @@ int main(int argc, char **argv)
 	//RGBtoLab(imOut, Lab, 'A');
 
 	// 2. Initialisation des cluster
-	for(int x = S; x < imOut.getHeight() - S; x+=S) {
-		for(int y = S; y < imOut.getWidth() - S; y+=S) {
+	for(int x = (int)S; x < imOut.getHeight() - (int)S; x+=(int)S) {
+		for(int y = (int)S; y < imOut.getWidth() - (int)S; y+=(int)S) {
 			Cluster p = {x, y, imOut[x*3][y*3], imOut[x*3][y*3+1], imOut[x*3][y*3+2]};
 			clusterCentres.push_back(p);
 
@@ -350,10 +350,10 @@ int main(int argc, char **argv)
 	// Calcul de la taille de l'image originale
 	uint long tailleOriginale = (uint long)imIn.getWidth() * (uint long)imIn.getHeight() * (uint long)CouleursUniques.size();
 	// Calcul de la taille de l'image compressée avec la compression de palette
-	long double tailleCompresséePalette = clusterCentres.size() * superpixelColors.size();
+	long double tailleCompresséePalette = (long double)imIn.getWidth() * (long double)imIn.getHeight() * (long double)superpixelColors.size();
 
 	// Calcul du taux de compression
-	long double tauxCompressionPalette = tailleOriginale / tailleCompresséePalette;
+	long double tauxCompressionPalette = (long double)tailleOriginale / (long double)tailleCompresséePalette;
 	std::cout << "Taille originale : " << tailleOriginale << std::endl;
 	std::cout << "Taux de compression avec compression de palette : " << tauxCompressionPalette << std::endl;
 

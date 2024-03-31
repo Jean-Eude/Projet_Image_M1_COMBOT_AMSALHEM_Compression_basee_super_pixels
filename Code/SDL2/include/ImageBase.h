@@ -58,8 +58,9 @@ public:
 	bool getColor() { return color; };
 	unsigned char *getData() { return data; };
 
-
+	#pragma omp single
 	void load(char *filename);
+	#pragma omp single
 	bool save(char *filename);
 
 	ImageBase *getPlan(PLAN plan);

@@ -26,11 +26,36 @@ int clamp(int value) {
     return std::max(0, std::min(value, 255));
 }
 
+#pragma omp single
+void OriginalImage(ImageBase &imIn, ImageBase &imOut, int x, int y, uint32_t *buffer, int size, int width) {
+    #pragma omp parallel for collapse(2) schedule(static)
+    for (int px = x; px < x + size; px++) {
+        for (int py = y; py < y + size; py++) {
+            int imgX_N = px - x;
+            int imgY_N = py - y;
+
+            if (imgX_N >= 0 && imgX_N < size && imgY_N >= 0 && imgY_N < size) {
+                uint32_t pixel = buffer[py * width + px];
+                uint8_t r_s = (pixel >> 16) & 0xFF;
+                uint8_t g_s = (pixel >> 8) & 0xFF;
+                uint8_t b_s = pixel & 0xFF;
+
+                imOut[imgY_N * 3][imgX_N * 3] = r_s;
+                imOut[imgY_N * 3][imgX_N * 3 + 1] = g_s;
+                imOut[imgY_N * 3][imgX_N * 3 + 2] = b_s;
+            }
+        }
+    }
+}
+
+
 
 // RGB		-->		Lab 	
 double F(double t) {return (t > 0.008856) ? pow(t, 1.0 / 3.0) : (7.787 * t + 16.0 / 116.0);}
 
+#pragma omp single
 void RGBtoLab(ImageBase &imIn, ImageBase &imOut, char c) {
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int x = 0; x < imIn.getHeight(); x++) {
         for (int y = 0; y < imIn.getWidth(); y++) {       
 
@@ -63,9 +88,10 @@ void RGBtoLab(ImageBase &imIn, ImageBase &imOut, char c) {
 }
 
 
+#pragma omp single
 void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
 	double gradX, gradY;
-
+    #pragma omp parallel for collapse(2) schedule(static)
     for (int x = 0; x < imOut.getHeight(); x++)
     {
         for (int y = 0; y < imIn.getWidth(); y++)
@@ -79,16 +105,17 @@ void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
 }
 
 
-
+#pragma omp single
 // Fonction pour perturber les centres des clusters
 void perturbClusterCenters(ImageBase &Lab, ImageBase &imIn, ImageBase &gradient, int n, std::vector<Cluster> &clusterCentres) {
+    #pragma omp parallel for collapse(3) schedule(static)
     for (int i = 0; i < clusterCentres.size(); ++i) {
         int x = clusterCentres[i].x;
         int y = clusterCentres[i].y;
 
         double minGradient = gradient[x][y];
         int newX = x, newY = y;
-
+        
         for (int dx = -n/2; dx <= n/2; ++dx) {
             for (int dy = -n/2; dy <= n/2; ++dy) {
                 int nx = x + dx;
