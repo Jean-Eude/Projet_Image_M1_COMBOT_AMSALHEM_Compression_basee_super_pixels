@@ -64,8 +64,12 @@ void RGBtoLab(ImageBase &imIn, ImageBase &imOut, char c) {
 }
 
 
-int moyenne(int A ,int B , int C ,int D ,int E ,int F , int G , int H , int I){
-    return (A + B + C + D + E + F + G + H + I)/9 ;
+int moyenne(std::vector<int> v){
+    double sum;
+    for ( int i : v)
+        sum += i;
+    sum  /= v.size();
+    return (int)sum;
 } 
 void moyenneur(ImageBase & imIn , ImageBase & imMoy)
 {
@@ -77,13 +81,50 @@ void moyenneur(ImageBase & imIn , ImageBase & imMoy)
             int _y = std::max(y - 1 , 0);
             
             int x_ = std::min(x + 1 , imIn.getHeight() - 1);
-            int y_ = std::min(y + 1 , imIn.getWidth()- 1);
+            int y_ = std::min(y + 1 , imIn.getWidth() - 1);
+            int pix_moy;
+            if (_x == 0 and _y == 0)
+                  pix_moy = moyenne({ imIn[x][y]  ,   imIn[x][y_], 
+                                          imIn[x_][y],   imIn[x_][y_]}); 
+                 
+            else if (_x == 0 and y_ == imIn.getWidth() - 1)
+                   pix_moy = moyenne({ imIn[x][_y]  ,   imIn[x][y]  ,   
+                                        imIn[x_][_y],   imIn[x_][y]}); 
+           
+            else if (x_ == imIn.getHeight()  and _y == 0)
+                  pix_moy = moyenne({   imIn[_x][y],   imIn[_x][y_],
+                                          imIn[x][y]  ,   imIn[x][y_]}); 
+           
+            else if (x_ == imIn.getHeight() - 1  and _y == imIn.getWidth() - 1)
+                  pix_moy = moyenne({imIn[_x][_y],   imIn[_x][y],
+                                        imIn[x][_y]  ,   imIn[x][y]   }); 
+           
+            else if (_x == 0 )
+                  pix_moy = moyenne({
+                                        imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
+                                        imIn[x_][_y],   imIn[x_][y],   imIn[x_][y_]}); 
+           
+            else if (_y == 0 )
+                  pix_moy = moyenne({  imIn[_x][y],   imIn[_x][y_],
+                                           imIn[x][y]  ,   imIn[x][y_], 
+                                         imIn[x_][y],   imIn[x_][y_]}); 
+           
+            else if (x_ == imIn.getHeight() - 1)
+                  pix_moy = moyenne({imIn[_x][_y],   imIn[_x][y],   imIn[_x][y_],
+                                        imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
+                                        }); 
+           
+            else if (y_ == imIn.getWidth() - 1)
+                  pix_moy = moyenne({imIn[_x][_y],   imIn[_x][y],  
+                                        imIn[x][_y]  ,   imIn[x][y] ,  
+                                        imIn[x_][_y],   imIn[x_][y],   }); 
+           
+            else
+             pix_moy = moyenne({imIn[_x][_y],   imIn[_x][y],   imIn[_x][y_],
+                                        imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
+                                        imIn[x_][_y],   imIn[x_][y],   imIn[x_][y_]}); 
+           
             
-            
-            int pix_moy = moyenne(imIn[_x][_y],   imIn[_x][y],   imIn[_x][y_],
-                                  imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
-                                  imIn[x_][_y],   imIn[x_][y],   imIn[x_][y_]
-                                );                
 
             imMoy[x][y] = pix_moy;
         }
@@ -107,8 +148,8 @@ void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
             int _x = std::max(x - 1 , 0);
             int _y = std::max(y - 1 , 0);
             
-            int x_ = std::min(x + 1 , imIn.getHeight()- 1);
-            int y_ = std::min(y + 1 , imIn.getWidth()- 1);
+            int x_ = std::min(x + 1 , imIn.getHeight() - 1);
+            int y_ = std::min(y + 1 , imIn.getWidth() - 1);
             
             int grad_h = gradient(moy[_x][_y],  - moy[_x][y_] , 
                                   moy[x][_y] ,  - moy[x][y_] ,
