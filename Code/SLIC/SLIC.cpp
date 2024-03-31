@@ -64,19 +64,25 @@ void RGBtoLab(ImageBase &imIn, ImageBase &imOut, char c) {
 }
 
 
-
 int moyenne(int A ,int B , int C ,int D ,int E ,int F , int G , int H , int I){
     return (A + B + C + D + E + F + G + H + I)/9 ;
 } 
 void moyenneur(ImageBase & imIn , ImageBase & imMoy)
 {
      
-    for(int x = 1 ; x < imIn.getHeight() -1 ; x++){
-        for(int y = 1 ; y < imIn.getWidth()-1 ; y++){
-                                        
-            int pix_moy = moyenne(imIn[x-1][y-1],   imIn[x-1][y],   imIn[x-1][y+1],
-                                  imIn[x][y-1]  ,   imIn[x][y]  ,   imIn[x][y+1], 
-                                  imIn[x+1][y-1],   imIn[x+1][y],   imIn[x+1][y+1]
+    for(int x = 0 ; x < imIn.getHeight(); x++){
+        for(int y = 0 ; y < imIn.getWidth()  ; y++){
+                             
+            int _x = std::max(x - 1 , 0);
+            int _y = std::max(y - 1 , 0);
+            
+            int x_ = std::min(x + 1 , imIn.getHeight() - 1);
+            int y_ = std::min(y + 1 , imIn.getWidth()- 1);
+            
+            
+            int pix_moy = moyenne(imIn[_x][_y],   imIn[_x][y],   imIn[_x][y_],
+                                  imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
+                                  imIn[x_][_y],   imIn[x_][y],   imIn[x_][y_]
                                 );                
 
             imMoy[x][y] = pix_moy;
@@ -93,40 +99,31 @@ void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
     ImageBase moy(imIn.getWidth(), imIn.getHeight(), false);	
     moyenneur(imIn , moy);
     
-    for (int x = 1; x < imOut.getHeight() - 1 ; x++)
+    for (int x = 0; x < imOut.getHeight() ; x++)
     {
-        for (int y = 1; y < imIn.getWidth() - 1 ; y++)
+        for (int y = 0; y < imIn.getWidth(); y++)
         {
             
-                int grad_h = gradient(moy[x - 1][y - 1],  - moy[x-1][y + 1] , 
-                                      moy[x][y - 1]    ,  - moy[x][y + 1] ,
-                                      moy[x+1][y - 1]  ,  - moy[x+1][y + 1] , 1); 
-                
-                int grad_v = gradient(moy[x-1][y - 1]  ,  - moy[x+1][y - 1],
-                                      moy[x-1][y]      ,  - moy[x+1][y],
-                                      moy[x-1][y + 1]  ,  - moy[x+1][y + 1], 1);                
-                
-                imOut[x][y] = clamp((int)sqrt(grad_h * grad_h + grad_v * grad_v));
+            int _x = std::max(x - 1 , 0);
+            int _y = std::max(y - 1 , 0);
+            
+            int x_ = std::min(x + 1 , imIn.getHeight()- 1);
+            int y_ = std::min(y + 1 , imIn.getWidth()- 1);
+            
+            int grad_h = gradient(moy[_x][_y],  - moy[_x][y_] , 
+                                  moy[x][_y] ,  - moy[x][y_] ,
+                                  moy[x_][_y],  - moy[x_][y_] , 1); 
+            
+            int grad_v = gradient(moy[_x][_y],  - moy[x_][_y],
+                                  moy[_x][y] ,  - moy[x_][y],
+                                  moy[_x][y_],  - moy[x_][y_], 1);                
+            
+            imOut[x][y] = clamp((int)sqrt(grad_h * grad_h + grad_v * grad_v));
         
            
         }
     }	
 }
-
-// void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
-// 	double gradX, gradY;
-// 
-//     for (int x = 0; x < imOut.getHeight(); x++)
-//     {
-//         for (int y = 0; y < imIn.getWidth(); y++)
-//         {
-//             gradX = (y < imIn.getWidth() - 1) ? imIn[x][y + 1] - imIn[x][y] : imIn[x][y] - imIn[x][y - 1];
-//             gradY = (x < imIn.getHeight() - 1) ? imIn[x + 1][y] - imIn[x][y] : imIn[x][y] - imIn[x - 1][y];
-// 
-//             imOut[x][y] = std::clamp(sqrt(gradX * gradX + gradY * gradY), 0., 255.);
-//         }
-//     }	
-// }
 
 
 
@@ -201,26 +198,76 @@ double psnr(ImageBase & imIn , ImageBase & imOut) {
     return PSNR;
 }
 
+void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<Cluster> & clusterCentres ) 
+{
+    
+    //Pour avoir les contours
+    ImageBase superpixelImageLab(imIn.getWidth(), imIn.getHeight(), true);	
+    RGBtoLab(imIn, superpixelImageLab, 'A');
+    
+    for (int x = 0; x < imOut.getHeight(); x++) {
+        for (int y = 1; y < imOut.getWidth(); y++) {
+            if(superpixelImageLab[x * 3][y * 3]  != superpixelImageLab[x * 3][(y-1) * 3] or
+                superpixelImageLab[x * 3][y * 3 + 1]  != superpixelImageLab[x * 3][(y-1) * 3 + 1] or 
+                superpixelImageLab[x * 3][y * 3 + 2]  != superpixelImageLab[x * 3][(y-1) * 3 + 2] 
+            ) {
+                imOut[x * 3][y * 3] = 255;
+                imOut[x * 3][y * 3 + 1] = 0;
+                imOut[x * 3][y * 3 + 2] = 0;
+            }
+            else{
+                imOut[x * 3][y * 3] = imIn[x * 3][y * 3];
+                imOut[x * 3][y * 3 + 1] = imIn[x * 3][y * 3 +1];
+                imOut[x * 3][y * 3 + 2] = imIn[x * 3][y * 3 +2];
+            }
+        }
+    }	
+    for (int y = 0; y < imOut.getHeight(); y++) {
+        for (int x = 1; x < imOut.getWidth(); x++) {
+            if(superpixelImageLab[x * 3][y * 3]  != superpixelImageLab[(x-1) * 3][y * 3] or 
+                superpixelImageLab[x * 3][y * 3 + 1 ]  != superpixelImageLab[(x-1) * 3][y * 3 +1] or
+                superpixelImageLab[x * 3][y * 3 + 2]  != superpixelImageLab[x * 3][(y-1) * 3 + 2] 
+            ) {
+                imOut[x * 3][y * 3] = 255;
+                imOut[x * 3][y * 3 + 1] = 0;
+                imOut[x * 3][y * 3 + 2] = 0;
+            }
+        }
+    }	
+    
+    
+    
+    // Pour avoir les centres des clusters
+    for (auto& cluster : clusterCentres) {
+        int x = cluster.x;
+        int y = cluster.y;
+        imOut[x * 3][y * 3] = 255;
+        imOut[x * 3][y * 3 + 1] = 255;
+        imOut[x * 3][y * 3 + 2] = 255;
+    }
+    
+}
 int main(int argc, char **argv)
 {
-	char cNomImgLue[250], cNomImgEcrite[250];
+	char cNomImgLue[250], cNomImgEcrite[250], cNomImgEcrite2[250];
 	int K, m, n, nbIter;
 
-	if (argc != 7) 
+	if (argc != 8) 
 	{
-		printf("Usage: ImageIn.pgm ImageOut.pgm Seuil \n"); 
+		printf("Usage: ImageIn.pgm ImageOut.pgm ImageOutwithContours.pgm  Seuil \n"); 
 		return 1;
 	}
 	sscanf (argv[1],"%s", cNomImgLue) ;
 	sscanf (argv[2],"%s", cNomImgEcrite);
+    sscanf (argv[3],"%s", cNomImgEcrite2);
 	// Nombre de superpixels
-	sscanf (argv[3],"%d", &K);
+	sscanf (argv[4],"%d", &K);
 	// Compacité
-	sscanf (argv[4],"%d", &m);
+	sscanf (argv[5],"%d", &m);
 	// vosisnage pertubation
-	sscanf (argv[5],"%d", &n);
+	sscanf (argv[6],"%d", &n);
 	// Nombre d'itérations = treshold
-	sscanf (argv[6],"%d", &nbIter);
+	sscanf (argv[7],"%d", &nbIter);
 		
 	ImageBase imIn;
 	imIn.load(cNomImgLue);
@@ -380,55 +427,8 @@ int main(int argc, char **argv)
 			}
 		}
 	}
-
-
-	//Pour avoir les contours
-	ImageBase superpixelImageLab(imIn.getWidth(), imIn.getHeight(), true);	
-    
-    RGBtoLab(superpixelImage, superpixelImageLab, 'A');
-    
-    for (int x = 0; x < imOut.getHeight(); x++) {
-        for (int y = 1; y < imOut.getWidth(); y++) {
-			if(superpixelImageLab[x * 3][y * 3]  != superpixelImageLab[x * 3][(y-1) * 3] or
-               superpixelImageLab[x * 3][y * 3 + 1]  != superpixelImageLab[x * 3][(y-1) * 3 + 1] or 
-               superpixelImageLab[x * 3][y * 3 + 2]  != superpixelImageLab[x * 3][(y-1) * 3 + 2] 
-            ) {
-				superpixelImage[x * 3][y * 3] = 255;
-				superpixelImage[x * 3][y * 3 + 1] = 0;
-				superpixelImage[x * 3][y * 3 + 2] = 0;
-			}
-        }
-    }	
-    for (int y = 0; y < imOut.getHeight(); y++) {
-        for (int x = 1; x < imOut.getWidth(); x++) {
-			if(superpixelImageLab[x * 3][y * 3]  != superpixelImageLab[(x-1) * 3][y * 3] or 
-                superpixelImageLab[x * 3][y * 3 + 1 ]  != superpixelImageLab[(x-1) * 3][y * 3 +1] or
-                superpixelImageLab[x * 3][y * 3 + 2]  != superpixelImageLab[x * 3][(y-1) * 3 + 2] ) {
-				superpixelImage[x * 3][y * 3] = 255;
-				superpixelImage[x * 3][y * 3 + 1] = 0;
-				superpixelImage[x * 3][y * 3 + 2] = 0;
-			}
-        }
-    }	
-
-// 	for (int x = 0; x < imOut.getHeight(); x++) {
-// 		for (int y = 0; y < imOut.getWidth(); y++) {
-// 			if (Gradientz[x][y] != 0) {
-// 				superpixelImage[x * 3][y * 3] = 255;
-// 				superpixelImage[x * 3][y * 3 + 1] = 0;
-// 				superpixelImage[x * 3][y * 3 + 2] = 0;
-// 			}
-// 		}
-// 	}
-
-	// Pour avoir les centres des clusters
-	for (auto& cluster : clusterCentres) {
-		int x = cluster.x;
-		int y = cluster.y;
-		superpixelImage[x * 3][y * 3] = 255;
-		superpixelImage[x * 3][y * 3 + 1] = 255;
-		superpixelImage[x * 3][y * 3 + 2] = 255;
-	}
+    ImageBase superpixelImage_withContour(imIn.getWidth(), imIn.getHeight(), true);
+    Contour_image_et_centre(superpixelImage , superpixelImage_withContour  , clusterCentres);
 
 
 	// Affichage du nombre de couleurs uniques et du nombre de couleurs dans la palette de superpixels
@@ -444,8 +444,9 @@ int main(int argc, char **argv)
 	long double tauxCompressionPalette = (long double)tailleOriginale / (long double)tailleCompresséePalette;
 	std::cout << "Taille originale : " << tailleOriginale << std::endl;
 	std::cout << "Taux de compression avec compression de palette : " << tauxCompressionPalette << std::endl;
-
-
-
+	std::cout << "PSNR: " << psnr(imIn , superpixelImage) << std::endl;
 	superpixelImage.save(cNomImgEcrite);
+
+	superpixelImage_withContour.save(cNomImgEcrite2);
+  
 }
