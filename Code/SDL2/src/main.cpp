@@ -1,4 +1,3 @@
-#include <opencv2/opencv.hpp>
 #include <Window.h>
 #include <GUI.h>
 #include <ImageBase.h>
@@ -9,56 +8,66 @@
 #include <utility>
 #include <cmath>
 
-using namespace cv;
 
-
-
-void InterNN(double imgX, double imgY, cv::Mat& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
+#pragma omp parallel
+void InterNN(double imgX, double imgY, ImageBase& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
     int xNearest = static_cast<int>(round(imgX));
     int yNearest = static_cast<int>(round(imgY));
 
-    xNearest = std::max(0, std::min(xNearest, imIn.cols - 1));
-    yNearest = std::max(0, std::min(yNearest, imIn.rows - 1));
+    xNearest = std::max(0, std::min(xNearest, imIn.getWidth() - 1));
+    yNearest = std::max(0, std::min(yNearest, imIn.getHeight() - 1));
 
-    cv::Vec3b pixel = imIn.at<cv::Vec3b>(yNearest, xNearest);
-    *r = pixel[0];  // Bleu
-    *g = pixel[1];  // Vert
-    *b = pixel[2];  // Rouge
+    *r = imIn[yNearest * 3][xNearest * 3];
+    *g = imIn[yNearest * 3][xNearest * 3 + 1];
+    *b = imIn[yNearest * 3][xNearest * 3 + 2];
 }
+#pragma omp end
 
-void InterBill(double imgX, double imgY, int size, cv::Mat& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
-    double imgX_original = imgX / static_cast<double>(size) * imIn.cols;
-    double imgY_original = imgY / static_cast<double>(size) * imIn.rows;
+#pragma omp parallel
+void InterBill(double imgX, double imgY, int size, ImageBase& imIn, uint8_t* r, uint8_t* g, uint8_t* b) {
+    double imgX_original = static_cast<double>(imgX) / static_cast<double>(size) * imIn.getWidth();
+    double imgY_original = static_cast<double>(imgY) / static_cast<double>(size) * imIn.getHeight();
 
     int x1 = static_cast<int>(imgX_original);
     int y1 = static_cast<int>(imgY_original);
-    int x2 = std::min(x1 + 1, imIn.cols - 1);
-    int y2 = std::min(y1 + 1, imIn.rows - 1);
+    int x2 = std::min(x1 + 1, imIn.getWidth() - 1);
+    int y2 = std::min(y1 + 1, imIn.getHeight() - 1);
 
     double dx = imgX_original - x1;
     double dy = imgY_original - y1;
 
-    cv::Vec3b p1 = imIn.at<cv::Vec3b>(y1, x1);
-    cv::Vec3b p2 = imIn.at<cv::Vec3b>(y1, x2);
-    cv::Vec3b p3 = imIn.at<cv::Vec3b>(y2, x1);
-    cv::Vec3b p4 = imIn.at<cv::Vec3b>(y2, x2);
+    uint8_t p1_r = imIn[y1 * 3][x1 * 3];
+    uint8_t p1_g = imIn[y1 * 3][x1 * 3 + 1];
+    uint8_t p1_b = imIn[y1 * 3][x1 * 3 + 2];
 
-    *r = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1[2] + dx * (1 - dy) * p2[2] + (1 - dx) * dy * p3[2] + dx * dy * p4[2]);  // Rouge
-    *g = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1[1] + dx * (1 - dy) * p2[1] + (1 - dx) * dy * p3[1] + dx * dy * p4[1]);  // Vert
-    *b = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1[0] + dx * (1 - dy) * p2[0] + (1 - dx) * dy * p3[0] + dx * dy * p4[0]);  // Bleu
+    uint8_t p2_r = imIn[y1 * 3][x2 * 3];
+    uint8_t p2_g = imIn[y1 * 3][x2 * 3 + 1];
+    uint8_t p2_b = imIn[y1 * 3][x2 * 3 + 2];
+
+    uint8_t p3_r = imIn[y2 * 3][x1 * 3];
+    uint8_t p3_g = imIn[y2 * 3][x1 * 3 + 1];
+    uint8_t p3_b = imIn[y2 * 3][x1 * 3 + 2];
+
+    uint8_t p4_r = imIn[y2 * 3][x2 * 3];
+    uint8_t p4_g = imIn[y2 * 3][x2 * 3 + 1];
+    uint8_t p4_b = imIn[y2 * 3][x2 * 3 + 2];
+
+    *r = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_r + dx * (1 - dy) * p2_r + (1 - dx) * dy * p3_r + dx * dy * p4_r);
+    *g = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_g + dx * (1 - dy) * p2_g + (1 - dx) * dy * p3_g + dx * dy * p4_g);
+    *b = static_cast<uint8_t>((1 - dx) * (1 - dy) * p1_b + dx * (1 - dy) * p2_b + (1 - dx) * dy * p3_b + dx * dy * p4_b);
 }
+#pragma omp end
 
+#pragma omp parallel
+void draw_Pixel(uint8_t r, uint8_t g, uint8_t b, int x, int y, uint32_t *buffer, int width, int height) {
+    uint8_t ir = r;
+    uint8_t ig = g;
+    uint8_t ib = b;
 
-// Fonction pour dessiner un pixel sur la texture SDL
-void draw_Pixel(uint8_t r, uint8_t g, uint8_t b, int x, int y, uint32_t* buffer, int width, int height) {
-    if (x >= 0 && x < width && y >= 0 && y < height) {
-        uint8_t ir = r;
-        uint8_t ig = g;
-        uint8_t ib = b;
-        uint32_t pixel = (ir << 16) | (ig << 8) | ib;
-        buffer[y * width + x] = pixel;
-    }
+    uint32_t pixel = (ir << 16) | (ig << 8) | ib;
+    buffer[y * width + x] = pixel;
 }
+#pragma omp end
 
 int main(int argc, char* argv[]) {
     int width = 1280, height = 720;
@@ -67,21 +76,19 @@ int main(int argc, char* argv[]) {
     int previousSize = size;
     uint8_t r = 255, g = 255, b = 255; 
 
-    // Créer une fenêtre et une interface utilisateur
+    ImageBase imIn;
+    imIn.load("../Assets/lena.ppm");
+    bool imageLoaded = true;
+    ImageBase afterSLIC;
+
+
     Window window("Projet Image - Compression basee superpixels", width, height);
     GUI gui(window);
 
-
-    void* pixels;
-    int pitch;
-    uint32_t* buffer;
-    char inputBuffer[256] = ""; 
-    bool imageLoaded = true;
-    cv::Mat image = cv::imread("1.ppm");
-    if (!image.empty()) {
-        cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
-    }
-
+    // Méthodes d'interpolation
+    bool interNN = true;
+    bool interBi = false;
+    int curr_Redim = 0;
 
     // Algo superpixels
     bool algoRien = true;
@@ -89,12 +96,33 @@ int main(int argc, char* argv[]) {
     int curr_Algo = 0;
 
     // Nombre de superpixels
-    int K = 1;
+    int K = 100;
     // compacité
-    int m = 1;
+    int m = 10;
     // Voisinage
     int n = 3;  // 3 de base
     int nbIter = 1;
+
+    // Méthodes de compression
+    bool compRien = true;
+    bool compPal = true;
+    int curr_comp = 0;
+
+    // Images
+    bool imgNorm = true;
+    bool imgGrad = false;
+    bool imgCtr = false;
+    int curr_Img = 0; 
+
+    // Saves
+    bool once = false;
+
+
+    void* pixels;
+    int pitch;
+    uint32_t* buffer;
+    char inputBuffer[256] = ""; 
+    gui.setupGUI();
 
 
 
@@ -113,7 +141,6 @@ int main(int argc, char* argv[]) {
     double imgYRatio = 0.;
     // Nombre de pixels de image
     int N = 0;
-
     // Taille de chaque superpixels
     double tailleSP = 0.;
     // Distance entre chaque superpixel
@@ -121,14 +148,15 @@ int main(int argc, char* argv[]) {
     
     int imgX_N = 0;
     int imgY_N = 0;
+    int imgx = 0;
+    int imgy = 0;
+    int prevK = 0;
+    int prevm = 0;
+    int prevn = 0;
+    int prevIter = 0;
 
-    gui.setupGUI();
 
-
-    // Boucle principale
     while (!window.getDone()) {
-        
-        ///// Gestion des entrées
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
             ImGui_ImplSDL2_ProcessEvent(&event);
@@ -138,13 +166,12 @@ int main(int argc, char* argv[]) {
                 window.setDone(true);
         }
 
-        ///// Traitements
-
         squareHeight = (height - size) / 2;
         offset = (width - 2 * size) / 4;
 
         squareWidth1 = offset;
         squareWidth2 = width / 2 + offset;
+
 
         if (imageModif) {
             window.destroyTexture();
@@ -153,19 +180,21 @@ int main(int argc, char* argv[]) {
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
             buffer = static_cast<uint32_t*>(pixels);
 
+            #pragma omp parallel for collapse(2) shared(imIn, buffer)
             for (int x = squareWidth1; x < squareWidth1 + size; x++) {
                 for (int y = squareHeight; y < squareHeight + size; y++) {
-                    if (!image.empty()) {
-                        int imgX = (x - squareWidth1) * image.cols / size;
-                        int imgY = (y - squareHeight) * image.rows / size;
+                    imgX = x - squareWidth1;
+                    imgY = y - squareHeight;
 
-                        if (imgX >= 0 && imgX < image.cols && imgY >= 0 && imgY < image.rows) {
-                            cv::Vec3b pixel = image.at<cv::Vec3b>(imgY, imgX);
-                            draw_Pixel(pixel[0], pixel[1], pixel[2], x, y, buffer, width, height);
+                    if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
+                        if(interNN == true) {
+                            InterNN(static_cast<double>(imgX) / size * imIn.getWidth(), static_cast<double>(imgY) / size * imIn.getHeight(), imIn, &r, &g, &b);
+                        } else if(interBi == true) {
+                            InterBill(static_cast<double>(imgX), static_cast<double>(imgY), size, imIn, &r, &g, &b);
                         }
-                    } else {
-                        draw_Pixel(255, 255, 255, x, y, buffer, width, height);
                     }
+
+                    draw_Pixel(r, g, b, x, y, buffer, width, height);
                 }
             }
 
@@ -174,32 +203,95 @@ int main(int argc, char* argv[]) {
             startY = squareHeight;
             endY = squareHeight + size;
 
+            #pragma omp parallel for collapse(4)
             for (int x = startX; x < endX; x++) {
-                int imgX = x - squareWidth2;
-                imgXRatio = static_cast<double>(imgX) / size * image.cols;
+                imgX = x - squareWidth2;
+                imgXRatio = static_cast<double>(imgX) / size * imIn.getWidth();
 
                 for (int y = startY; y < endY; y++) {
                     int imgY = y - squareHeight;
-                    imgYRatio = static_cast<double>(imgY) / size * image.rows;
+                    imgYRatio = static_cast<double>(imgY) / size * imIn.getHeight();
 
-                    if (!image.empty()) {
-                        if (imgXRatio >= 0 && imgXRatio < image.cols && imgYRatio >= 0 && imgYRatio < image.rows) {
-                            cv::Vec3b pixel = image.at<cv::Vec3b>(imgYRatio, imgXRatio);
-                            draw_Pixel(pixel[0], pixel[1], pixel[2], x, y, buffer, width, height);
+                    if (imgX >= 0 && imgX < size && imgY >= 0 && imgY < size) {
+                        if (interNN == true) {
+                            InterNN(static_cast<double>(imgX) / size * imIn.getWidth(), static_cast<double>(imgY) / size * imIn.getHeight(), imIn, &r, &g, &b);
+
+                            if (algoRien == true) {
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            } else if (algoSlic == true) {
+                                if (size != previousSize && !once) {
+                                    ImageBase imOut_Save(size, size, imIn.getColor());
+                                    for (int py = squareHeight; py < squareHeight + size; py++) {
+                                        for (int px = squareWidth1; px < squareWidth1 + size; px++) {
+                                            int imgXa = px - squareWidth1;
+                                            int imgYa = py - squareHeight;
+                                            if (imgXa >= 0 && imgXa < size && imgYa >= 0 && imgYa < size) {
+                                                uint32_t pixel = buffer[py * width + px];  
+                                                uint8_t r_s = (pixel >> 16) & 0xFF;     
+                                                uint8_t g_s = (pixel >> 8) & 0xFF; 
+                                                uint8_t b_s = pixel & 0xFF; 
+                                                imOut_Save[imgYa * 3][imgXa * 3] = r_s;
+                                                imOut_Save[imgYa * 3][imgXa * 3 + 1] = g_s;
+                                                imOut_Save[imgYa * 3][imgXa * 3 + 2] = b_s;
+                                            }
+                                        }
+                                    }
+                                    imOut_Save.save("avantSLIC.ppm");
+                                    std::string commandeCompilation;
+                                    if(compRien == true) {
+                                        commandeCompilation = "g++ ../others/SLIC.cpp ../others/ImageBase.cpp -Ofast && ./a.out ../bin/avantSLIC.ppm apresSLIC.ppm " + std::to_string(K) + " " + std::to_string(m) + " " + std::to_string(n) + " " + std::to_string(nbIter) + " " + std::to_string(0) + " " + "Gradient.pgm" + " " + "Centres.ppm";
+                                    } 
+                                    if(compPal == true) {
+                                        commandeCompilation = "g++ ../others/SLIC.cpp ../others/ImageBase.cpp -Ofast && ./a.out ../bin/avantSLIC.ppm apresSLIC.ppm " + std::to_string(K) + " " + std::to_string(m) + " " + std::to_string(n) + " " + std::to_string(nbIter) + " " + std::to_string(1) + " " + "Gradient.pgm" + " " + "Centres.ppm";
+                                    }
+
+                                    int resultatCompilation = system(commandeCompilation.c_str());
+
+                                    if(imgNorm == true) {
+                                        afterSLIC.load("apresSLIC.ppm");
+                                    }
+                                    if(imgGrad == true) {
+                                        afterSLIC.load("Gradient.pgm");
+                                    }
+                                    if(imgCtr == true) {
+                                        afterSLIC.load("Centres.ppm");
+                                    }
+
+                                    once = true;
+                                } else if (size == previousSize) {
+                                    once = false;
+                                }
+
+
+                                imgx = x - squareWidth2;
+                                imgy = y - squareHeight;
+                                if (imgx >= 0 && imgx < afterSLIC.getWidth() && imgy >= 0 && imgy < afterSLIC.getHeight()) {
+                                    r = afterSLIC[imgy * 3][imgx * 3];
+                                    g = afterSLIC[imgy * 3][imgx * 3 + 1];
+                                    b = afterSLIC[imgy * 3][imgx * 3 + 2];
+                                }                                      
+                                
+
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            }
+                        } else if(interBi == true) {
+                            InterBill(static_cast<double>(imgX), static_cast<double>(imgY), size, imIn, &r, &g, &b);
+                            
+                            if(algoRien == true) {
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            } else if(algoSlic == true) {
+                                draw_Pixel(r, g, b, x, y, buffer, width, height);
+                            }
                         }
-                    } else {
-                        draw_Pixel(r, g, b, x, y, buffer, width, height);
-                    }
+                    }                    
                 }
-            }
+            } 
 
             SDL_UnlockTexture(window.getTexture());
             imageModif = false;
-
         }
 
 
-        ///// Interface utilisateur
         gui.beforeUpdate();
 
         ImGui::Begin("Paramètres");
@@ -209,47 +301,56 @@ int main(int argc, char* argv[]) {
         previousSize = size;
 
         if (ImGui::SliderInt("Taille", &size, 0, width/2)) {
+
+            std::cout << "----------" << std::endl;
             imageModif = true;
+            std::cout << size << std::endl;
+            std::cout << previousSize << std::endl;
+            std::cout << "----------" << std::endl;
+
         }
+        ImGui::Spacing();
+        if (ImGui::InputInt("// Taille", &size, 1)) {
+            if(size > width/2) {
+                size = width/2;
+            }
+            std::cout << "----------" << std::endl;
+            imageModif = true;
+            std::cout << size << std::endl;
+            std::cout << previousSize << std::endl;
+            std::cout << "----------" << std::endl;
+        }
+
+    
         if (ImGui::Button("Load")) {
             IGFD::FileDialogConfig cfg;
             cfg.path = ".";
             ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlgKey", "Ouvrir une image", ".ppm", cfg);
         }
-
         if (ImGuiFileDialog::Instance()->Display("ChooseFileDlgKey")) {
             if (ImGuiFileDialog::Instance()->IsOk()) { 
                 std::string cheminNom = ImGuiFileDialog::Instance()->GetFilePathName();
                 std::string cheminAccess = ImGuiFileDialog::Instance()->GetCurrentPath();
+                SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
+                uint32_t* buffer = static_cast<uint32_t*>(pixels);
 
-                cv::Mat loadedImage = cv::imread(cheminNom);
-
-                if (!loadedImage.empty()) {
-                    cv::cvtColor(image, image, cv::COLOR_BGR2RGB);
-                    cv::resize(loadedImage, image, cv::Size(width, height));
-                    
-                    SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
-                    buffer = static_cast<uint32_t*>(pixels);
-
-                    memcpy(buffer, loadedImage.data, loadedImage.rows * loadedImage.cols * loadedImage.channels());
-
-                    SDL_UnlockTexture(window.getTexture());
-                    imageLoaded = true;
-                    imageModif = true;
-                } else {
-                    std::cerr << "Erreur lors du chargement de l'image !" << std::endl;
-                }
+                std::cout << (char*)cheminNom.c_str() << std::endl;
+                imIn.load((char*)cheminNom.c_str());
+                imageLoaded = true;
+                imageModif = true; 
             }
             ImGuiFileDialog::Instance()->Close();
         }
 
         ImGui::SameLine();
-        
+
         if (ImGui::Button("Save")) {
-            cv::Mat imOut_Save = cv::Mat::zeros(size, size, CV_8UC3);
+            ImageBase imOut_Save(size, size, imIn.getColor());
+
             SDL_LockTexture(window.getTexture(), NULL, &pixels, &pitch);
             uint32_t* buffer = static_cast<uint32_t*>(pixels);
 
+            #pragma omp parallel for collapse(2) shared(imIn, buffer)
             for (int x = squareWidth2; x < squareWidth2 + size; x++) {
                 for (int y = squareHeight; y < squareHeight + size; y++) {
                     int imgX = x - squareWidth2;
@@ -261,24 +362,37 @@ int main(int argc, char* argv[]) {
                         uint8_t g_s = (pixel >> 8) & 0xFF; 
                         uint8_t b_s = pixel & 0xFF; 
 
-                        imOut_Save.at<cv::Vec3b>(imgY, imgX) = cv::Vec3b(b_s, g_s, r_s);
+                        imOut_Save[imgY * 3][imgX * 3] = r_s;
+                        imOut_Save[imgY * 3][imgX * 3 + 1] = g_s;
+                        imOut_Save[imgY * 3][imgX * 3 + 2] = b_s;
                     }
                 }
             }
         
             SDL_UnlockTexture(window.getTexture());
             
-            std::string outputFileName;
             if (strlen(inputBuffer) == 0) {
-                outputFileName = "1.ppm";
+                imOut_Save.save("1.ppm");
             } else {
-                outputFileName = inputBuffer;
+                imOut_Save.save(inputBuffer);
             }
-
-            cv::imwrite(outputFileName, imOut_Save);
         }
         ImGui::Spacing();
         ImGui::Separator();
+        ImGui::Text("Méthodes d'interpolation :");
+        const char* itemsRedim[] = { "Plus proche voisins", "Interpolation billinéaire"};
+        if(ImGui::Combo("Algorithme RD", &curr_Redim, itemsRedim, IM_ARRAYSIZE(itemsRedim))) {
+            std::string selected_item(itemsRedim[curr_Redim]);
+
+            if(curr_Redim == 0) {
+                interNN = true;
+                interBi = false;
+            } else if(curr_Redim == 1) {
+                interNN = false;
+                interBi = true;
+            }
+            imageModif = true;
+        }
         ImGui::Spacing();
         ImGui::Separator();
         ImGui::Text("Algorithmes superpixels :");
@@ -291,34 +405,87 @@ int main(int argc, char* argv[]) {
                 algoSlic = false;
             } else if(curr_Algo == 1) { 
                 algoRien = false;
-                algoSlic = true;  
+                algoSlic = true; 
+            }
+
+            imageModif = true;
+        }
+        const char* itemsImg[] = { "Normale", "Gradient", "Centres des clusters"};
+        if(ImGui::Combo("// Mode", &curr_Img, itemsImg, IM_ARRAYSIZE(itemsImg))) {
+            std::string selected_item(itemsImg[curr_Img]);
+
+            if(curr_Img == 0) {
+                imgNorm = true;
+                imgGrad = false;
+                imgCtr = false;
+            } else if(curr_Img == 1) { 
+                imgNorm = false;
+                imgGrad = true;
+                imgCtr = false;  
+            } else if(curr_Img == 2) { 
+                imgNorm = false;
+                imgGrad = false;
+                imgCtr = true;  
             }
 
             imageModif = true;
         }
 
+        ImGui::Spacing();
+
         if(algoSlic) {
-            ImGui::SliderInt("Nombre de superpixels", &K, 1, 500);
-            ImGui::SliderInt("Compacité", &m, 1, 500);
+            prevK = K;
+            prevm = m;
+            prevn = n;
+            prevIter = nbIter;
+            ImGui::SliderInt("Nombre de superpixels", &K, 1, 10000);
+            ImGui::InputInt("// Nombre de superpixels", &K, 1);
+            ImGui::SliderInt("Compacité", &m, 1, 10000);
+            ImGui::InputInt("// Compacité", &m, 1);
             ImGui::SliderInt("Voisinage (Gradient)", &n, 1, 10);
             ImGui::SliderInt("Nombre d'itérations", &nbIter, 1, 10);
         }
 
         ImGui::Spacing();
         ImGui::Separator();
+
+        ImGui::Text("Méthodes de compression :");
+        const char* itemsComp[] = { "Rien", "Compression palette"};
+        if(ImGui::Combo("Algorithmes Comp", &curr_comp, itemsComp, IM_ARRAYSIZE(itemsComp))) {
+            std::string selected_item(itemsComp[curr_comp]);
+
+            if(curr_comp == 0) {
+                compRien = true;
+                compPal = false;
+            } else if(curr_Algo == 1) { 
+                compRien = false;
+                compPal = true; 
+            }
+
+            imageModif = true;
+        }
+
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Text("Métriques :");
+        ImGui::Text("PSNR = %f");
+
+
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
         ImGui::End();
+
         ImGui::Render();
-
-
-        ///// Update
         SDL_RenderClear(window.getRenderer());
         SDL_RenderCopy(window.getRenderer(), window.getTexture(), NULL, NULL);
         ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData());
         SDL_RenderPresent(window.getRenderer());
     }
 
-    gui.destroy();
+    ImGui_ImplSDLRenderer2_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
+
+
     window.destroyWindow();
 
     return 0;
