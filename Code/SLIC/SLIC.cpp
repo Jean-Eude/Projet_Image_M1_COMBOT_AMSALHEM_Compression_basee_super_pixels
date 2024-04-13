@@ -27,7 +27,6 @@ int clamp(int value) {
     return std::max(0, std::min(value, 255));
 }
 
-
 // RGB		-->		Lab 	
 double F(double t) {return (t > 0.008856) ? pow(t, 1.0 / 3.0) : (7.787 * t + 16.0 / 116.0);}
 
@@ -71,8 +70,8 @@ int moyenne(std::vector<int> v){
     sum  /= v.size();
     return (int)sum;
 } 
-void moyenneur(ImageBase & imIn , ImageBase & imMoy)
-{
+
+void moyenneur(ImageBase & imIn , ImageBase & imMoy) {
      
     for(int x = 0 ; x < imIn.getHeight(); x++){
         for(int y = 0 ; y < imIn.getWidth()  ; y++){
@@ -124,8 +123,6 @@ void moyenneur(ImageBase & imIn , ImageBase & imMoy)
                                         imIn[x][_y]  ,   imIn[x][y]  ,   imIn[x][y_], 
                                         imIn[x_][_y],   imIn[x_][y],   imIn[x_][y_]}); 
            
-            
-
             imMoy[x][y] = pix_moy;
         }
     }
@@ -160,12 +157,9 @@ void Convert2Gradient(ImageBase &imIn, ImageBase &imOut) {
                                   moy[_x][y_],  - moy[x_][y_], 1);                
             
             imOut[x][y] = clamp((int)sqrt(grad_h * grad_h + grad_v * grad_v));
-        
-           
         }
     }	
 }
-
 
 
 // Fonction pour perturber les centres des clusters
@@ -200,22 +194,7 @@ void perturbClusterCenters(ImageBase &Lab, ImageBase &imIn, ImageBase &gradient,
     }
 }
 
-
-// Fonctions de distances (Position & Couleurs & les 2 (5D))
-double distanceSpatiale(Cluster c, int x, int y) {
-    return std::sqrt(((x - c.x) * (x - c.x)) + ((y - c.y) * (y - c.y)));
-}
-
-double distanceSpectrale(ImageBase &imOut, Cluster c, int x, int y) {
-    return std::sqrt(((imOut[x * 3][y * 3] - c.L) * (imOut[x * 3][y * 3] - c.L)) +
-										((imOut[x * 3][y * 3 + 1] - c.a) * (imOut[x * 3][y * 3 + 1] - c.a)) +
-										((imOut[x * 3][y * 3 + 2] - c.b) * (imOut[x * 3][y * 3 + 2] - c.b)));
-}
-
-double calculDistances(double distanceSpatiale, double distanceSpectrale, int m, int S) {
-    return sqrt(((distanceSpectrale/m) * (distanceSpectrale/m)) + (distanceSpatiale/S) * (distanceSpatiale/S));
-}
-double psnr(ImageBase & imIn , ImageBase & imOut) {
+double PSNR(ImageBase & imIn , ImageBase & imOut) {
     double EQM_r, EQM_g, EQM_b, EQM;
     double PSNR;
 
@@ -235,13 +214,61 @@ double psnr(ImageBase & imIn , ImageBase & imOut) {
 
     PSNR = 10 * std::log10((255 * 255) / EQM);
 
-    std::cout << PSNR << std::endl;
     return PSNR;
 }
 
+
+// Entropie (RGB)
+double Entropy(ImageBase& image) {
+    int width = image.getWidth();
+    int height = image.getHeight();
+    int totalPixels = width * height;
+
+    int histoR[256] = {0}; 
+    int histoG[256] = {0}; 
+    int histoB[256] = {0}; 
+
+    for (int i = 0; i < image.getWidth(); i++) {
+        for (int j = 0; j < image.getHeight(); j++) {
+			histoR[image[i][j]]++;
+            histoG[image[i][j+1]]++;
+            histoB[image[i][j+2]]++;
+        }    
+    }
+
+    // Calcul des probabilités et de l'entropie
+    double entropyR = 0.0;
+    double entropyG = 0.0;
+    double entropyB = 0.0;
+
+    for (int i = 0; i < 256; ++i) {
+        if (histoR[i] != 0) {
+            double pi = static_cast<double>(histoR[i]) / totalPixels;
+            entropyR -= pi * log2(pi);
+        }
+    }
+
+    for (int i = 0; i < 256; ++i) {
+        if (histoG[i] != 0) {
+            double pi = static_cast<double>(histoG[i]) / totalPixels;
+            entropyG -= pi * log2(pi);
+        }
+    }
+
+    for (int i = 0; i < 256; ++i) {
+        if (histoB[i] != 0) {
+            double pi = static_cast<double>(histoB[i]) / totalPixels;
+            entropyB -= pi * log2(pi);
+        }
+    }
+
+    return (entropyR + entropyG + entropyB) / 3;
+}
+
+
+
 void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<Cluster> & clusterCentres ) 
 {
-    
     //Pour avoir les contours
     ImageBase superpixelImageLab(imIn.getWidth(), imIn.getHeight(), true);	
     RGBtoLab(imIn, superpixelImageLab, 'A');
@@ -276,8 +303,6 @@ void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<C
         }
     }	
     
-    
-    
     // Pour avoir les centres des clusters
     for (auto& cluster : clusterCentres) {
         int x = cluster.x;
@@ -286,8 +311,8 @@ void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<C
         imOut[x * 3][y * 3 + 1] = 255;
         imOut[x * 3][y * 3 + 2] = 255;
     }
-    
 }
+
 int main(int argc, char **argv)
 {
 	char cNomImgLue[250], cNomImgEcrite[250], cNomImgEcrite2[250];
@@ -295,9 +320,9 @@ int main(int argc, char **argv)
 
 	if (argc != 7) 
 	{
-		printf("Usage: ImageIn.pgm ImageOut.pgm ImageOutwithContours.pgm  Seuil \n"); 
 		return 1;
 	}
+
 	sscanf (argv[1],"%s", cNomImgLue) ;
 	sscanf (argv[2],"%s", cNomImgEcrite);
 	// Nombre de superpixels
@@ -331,19 +356,6 @@ int main(int argc, char **argv)
 	std::vector<Palette> superpixelColors;
 
 
-	// Calcul du nombre de couleurs de l'image
-	std::set<std::tuple<int, int, int>> CouleursUniques;
-
-	for (int x = 0; x < imIn.getHeight(); x++) {
-		for (int y = 0; y < imIn.getWidth(); y++) {
-			int r = imIn[x*3][y*3];
-			int g = imIn[x*3][y*3+1];
-			int b = imIn[x*3][y*3+2];
-			
-			CouleursUniques.insert(std::make_tuple(r, g, b));
-		}
-	}
-
 	// Image de base
 	for(int x = 0; x < imIn.getHeight(); x++) {
 		for(int y = 0; y < imIn.getWidth(); y++) {
@@ -359,7 +371,9 @@ int main(int argc, char **argv)
 	ImageBase Lab(imIn.getWidth(), imIn.getHeight(), imIn.getColor());	
 	//RGBtoLab(imOut, Lab, 'A');
 
-	// 2. Initialisation des cluster
+
+
+	// 2. Initialisation des clusters
 	for(int x = (int)S; x < imOut.getHeight() - (int)S; x+=(int)S) {
 		for(int y = (int)S; y < imOut.getWidth() - (int)S; y+=(int)S) {
 			Cluster p = {x, y, imOut[x*3][y*3], imOut[x*3][y*3+1], imOut[x*3][y*3+2]};
@@ -371,16 +385,20 @@ int main(int argc, char **argv)
 		}
 	}
 
+
 	// Récupération de la luminance
 	ImageBase L(imIn.getWidth(), imIn.getHeight(), false);	
 	RGBtoLab(imOut, L, 'L');	
 
+
+	// Entropie de l'image originale
+	double entropie_originale = Entropy(imIn);
+	std::cout << "Entropie de l'image originale : " << entropie_originale << " bits/pixel = " << ceil(entropie_originale) << " bits/pixel (entier supérieur)" << std::endl; 
+
+
 	ImageBase Gradient(imIn.getWidth(), imIn.getHeight(), false);
 	Convert2Gradient(L, Gradient);
 	perturbClusterCenters(imIn, imOut, Gradient, n, clusterCentres);
-
-	
-
 
 
 	std::vector<std::vector<double>> dis(imIn.getHeight(), std::vector<double>(imIn.getWidth(), std::numeric_limits<double>::max()));
@@ -420,16 +438,9 @@ int main(int argc, char **argv)
 				Cluster& nearestCluster = clusterCentres[minClusterIndex];
 				nearestCluster.addPixelIndex(x, y); 
 
-								/*
 				superpixelImage[x * 3][y * 3] = nearestCluster.L;
 				superpixelImage[x * 3][y * 3 + 1] = nearestCluster.a;
 				superpixelImage[x * 3][y * 3 + 2] = nearestCluster.b;
-				*/
-
-				// Avec palette
-				superpixelImage[x * 3][y * 3] = superpixelColors[minClusterIndex].r;
-				superpixelImage[x * 3][y * 3 + 1] = superpixelColors[minClusterIndex].g;
-				superpixelImage[x * 3][y * 3 + 2] = superpixelColors[minClusterIndex].b;
 			}
 		}
 
@@ -470,24 +481,110 @@ int main(int argc, char **argv)
 		}
 	}
 
+
+	// Initialisation de la palette (couleurs uniques)
+	std::vector<Palette> palCouleurs;
+
+	for (Palette c : superpixelColors) {
+		bool couleurUnique = true;
+		for (Palette d : palCouleurs) {
+			if (c.r == d.r && c.g == d.g && c.b == d.b) {
+				couleurUnique = false;
+				break;
+			}
+		}
+		if (couleurUnique) {
+			palCouleurs.push_back(c);
+			//std::cout << c.r << " " << c.g << " " << c.b << std::endl;
+		}
+	}
+	
+	// Créer de la palette d'indice
+	ImageBase paletteIndice(int(sqrt(palCouleurs.size()) + 0.5), int(sqrt(palCouleurs.size()) + 0.5), imIn.getColor());	
+
+	for(int x = 0; x < paletteIndice.getHeight(); x+=1) {
+		for(int y = 0; y < paletteIndice.getWidth(); y+=1) {
+			paletteIndice[x*3][y*3] = palCouleurs[x * paletteIndice.getWidth() + y].r;
+			paletteIndice[x*3][y*3+1] = palCouleurs[x * paletteIndice.getWidth() + y].g;
+			paletteIndice[x*3][y*3+2] = palCouleurs[x * paletteIndice.getWidth() + y].b;
+		}
+	}
+
+	paletteIndice.save("testPal.ppm");
+
+
+	// Rendu des indices
+	ImageBase indices(superpixelImage.getWidth(), superpixelImage.getHeight(), false);	
+	for(int x = 0; x < superpixelImage.getHeight(); x+=1) {
+		for(int y = 0; y < superpixelImage.getWidth() ; y+=1) {
+			for(int k = 0 ; k < paletteIndice.getHeight() ; k++){
+				for(int z = 0 ; z < paletteIndice.getWidth() ; z++){
+					if(superpixelImage[x*3][y*3]== paletteIndice[k*3][z*3] && 
+					superpixelImage[x*3][y*3+1]== paletteIndice[k*3][z*3+1] &&
+					superpixelImage[x*3][y*3+2]== paletteIndice[k*3][z*3+2])
+					{
+						indices[x][y] = round(((k * paletteIndice.getWidth() + z) * 255) / palCouleurs.size());
+					}
+				}
+			}
+		}
+	}
+	indices.save("indice.pgm");
+
+
+	std::vector<int> index;
+	index.resize(superpixelImage.getWidth() * superpixelImage.getHeight());
+	for(int x = 0; x < superpixelImage.getHeight(); x+=1) {
+		for(int y = 0; y < superpixelImage.getWidth() ; y+=1) {
+			for(int k = 0 ; k < paletteIndice.getHeight() ; k++){
+				for(int z = 0 ; z < paletteIndice.getWidth() ; z++){
+					if(superpixelImage[x*3][y*3]== paletteIndice[k*3][z*3] && 
+					superpixelImage[x*3][y*3+1]== paletteIndice[k*3][z*3+1] &&
+					superpixelImage[x*3][y*3+2]== paletteIndice[k*3][z*3+2])
+					{
+						index[x * superpixelImage.getWidth() + y] = k * paletteIndice.getWidth() + z;
+					}
+				}
+			}
+		}
+	}
+
+	// Codage par plage
+	std::vector<int> codageplageIndex;
+	int cpt = 0;
+	for(int i = 0; i < index.size() - 1; i++) {
+		if(index[i+1] != index[i]) {
+			codageplageIndex.push_back(cpt);
+			codageplageIndex.push_back(index[i]);
+		} else {
+			cpt++;
+		}
+	}
+
+	std::cout << codageplageIndex.size() << std::endl;
+
+
+	// Entropie de l'image superpixelisé
+	double entropie_superpixels = Entropy(superpixelImage);
+	std::cout << "Entropie de l'image superpixelisée : " << entropie_superpixels << " bits/pixel = " << ceil(entropie_superpixels) << " bits/pixel (entier supérieur)" << std::endl; 
+
+
 	// Affichage du nombre de couleurs uniques et du nombre de couleurs dans la palette de superpixels
-	std::cout << "Nombre de couleurs uniques : " << CouleursUniques.size() << std::endl;
-	std::cout << "Taille de la palette de superpixels : " << superpixelColors.size() << std::endl;
+	std::cout << "Taille de la palette de superpixels : " << palCouleurs.size() << std::endl;
 
 	// Calcul de la taille de l'image originale
-	uint long tailleOriginale = (uint long)imIn.getWidth() * (uint long)imIn.getHeight() * (uint long)CouleursUniques.size();
+	uint long tailleOriginale = sizeof(imIn.getData()) * imIn.getHeight() * imIn.getWidth();
 	// Calcul de la taille de l'image compressée avec la compression de palette
-	long double tailleCompresséePalette = (long double)imIn.getWidth() * (long double)imIn.getHeight() * (long double)superpixelColors.size();
+	double tailleCompresséePalette = (sizeof(int)) * codageplageIndex.size() + sizeof(paletteIndice.getData()) * palCouleurs.size();
 
 	// Calcul du taux de compression
-	long double tauxCompressionPalette = (long double)tailleOriginale / (long double)tailleCompresséePalette;
+	double tauxCompressionPalette = (double)tailleOriginale / (double)tailleCompresséePalette;
 	std::cout << "Taille originale : " << tailleOriginale << std::endl;
-	std::cout << "Taux de compression avec compression de palette : " << tauxCompressionPalette << std::endl;
+	std::cout << "Taille compressé : " << tailleCompresséePalette << std::endl;
+	std::cout << "Taux de compression avec compression palette : " << tauxCompressionPalette << std::endl;
+	std::cout << "PSNR: " << PSNR(imIn , superpixelImage) << std::endl;
 
-
-	std::cout << "PSNR: " << psnr(imIn , superpixelImage) << std::endl;
-	ImageBase superpixelImageContour(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
-
-	Contour_image_et_centre(superpixelImage, superpixelImageContour, clusterCentres);
+	//ImageBase superpixelImageContour(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
+	//Contour_image_et_centre(superpixelImage, superpixelImageContour, clusterCentres);
 	superpixelImage.save(cNomImgEcrite);
 }
