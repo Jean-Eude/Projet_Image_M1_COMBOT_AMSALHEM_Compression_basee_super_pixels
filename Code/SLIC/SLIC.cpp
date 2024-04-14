@@ -500,6 +500,7 @@ int main(int argc, char **argv)
 		}
 	}
 
+	std::cout << clusterCentres.size() <<  std::endl;
 
 	// Initialisation de la palette (couleurs uniques)
 	std::vector<Palette> palCouleurs;
