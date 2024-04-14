@@ -600,7 +600,7 @@ int main(int argc, char **argv)
 	std::cout << "Taille originale : " << tailleOriginale << std::endl;
 	std::cout << "Taille compressé : " << tailleCompresséePalette << std::endl;
 	std::cout << "Taux de compression avec compression palette : " << tauxCompressionPalette << std::endl;
-	std::cout << "PSNR: " << PSNR(imIn , superpixelImage) << std::endl;
+	std::cout << "PSNR: " << PSNR(imIn , superpixelImage) << " dB" << std::endl;
 
 	//ImageBase superpixelImageContour(imIn.getWidth(), imIn.getHeight(), imIn.getColor());
 	//Contour_image_et_centre(superpixelImage, superpixelImageContour, clusterCentres);

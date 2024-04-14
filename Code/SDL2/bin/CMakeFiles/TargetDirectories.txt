@@ -1,3 +1,3 @@
-/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin/CMakeFiles/main.dir
-/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin/CMakeFiles/edit_cache.dir
-/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels/Code/SDL2/bin/CMakeFiles/rebuild_cache.dir
+/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels-main/Code/SDL2/bin/CMakeFiles/main.dir
+/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels-main/Code/SDL2/bin/CMakeFiles/edit_cache.dir
+/home/evan/Bureau/M1/Sem2/Projet Image/Projet_Image_M1_COMBOT_AMSALHEM_Compression_basee_super_pixels-main/Code/SDL2/bin/CMakeFiles/rebuild_cache.dir
