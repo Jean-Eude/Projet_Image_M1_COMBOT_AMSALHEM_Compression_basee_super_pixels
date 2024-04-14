@@ -6,6 +6,7 @@
 #include <set>
 #include <tuple>
 #include <vector>
+#include <fstream>
 
 
 struct Palette {
@@ -219,22 +220,34 @@ double PSNR(ImageBase & imIn , ImageBase & imOut) {
 
 
 // Entropie (RGB)
-double Entropy(ImageBase& image) {
+double Entropy(ImageBase& image, const char* fileName) {
     int width = image.getWidth();
     int height = image.getHeight();
     int totalPixels = width * height;
 
-    int histoR[256] = {0}; 
-    int histoG[256] = {0}; 
-    int histoB[256] = {0}; 
+	int* histoR = new int[256](); 
+	int* histoG = new int[256]();
+	int* histoB = new int[256]();
 
     for (int i = 0; i < image.getWidth(); i++) {
         for (int j = 0; j < image.getHeight(); j++) {
-			histoR[image[i][j]]++;
-            histoG[image[i][j+1]]++;
-            histoB[image[i][j+2]]++;
+			histoR[image[i*3][j*3]]++;
+            histoG[image[i*3][j*3+1]]++;
+            histoB[image[i*3][j*3+2]]++;
         }    
     }
+
+    std::ofstream outFile(fileName);
+    if (outFile.is_open()) {
+        for (int i = 0; i < 256; i++) {
+            outFile << i << "\t" << histoR[i] << "\t" << histoG[i] << "\t" << histoB[i] << "\n";
+        }
+        outFile.close();
+        std::cout << "Les histogrammes ont été écrits dans le fichier avec succès." << std::endl;
+    } else {
+        std::cerr << "Erreur lors de l'ouverture du fichier." << std::endl;
+    }
+
 
     // Calcul des probabilités et de l'entropie
     double entropyR = 0.0;
@@ -262,9 +275,12 @@ double Entropy(ImageBase& image) {
         }
     }
 
+	delete[] histoR;
+	delete[] histoG;
+	delete[] histoB;
+
     return (entropyR + entropyG + entropyB) / 3;
 }
-
 
 
 void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<Cluster> & clusterCentres ) 
@@ -316,9 +332,9 @@ void Contour_image_et_centre(ImageBase & imIn ,ImageBase & imOut , std::vector<C
 int main(int argc, char **argv)
 {
 	char cNomImgLue[250], cNomImgEcrite[250], cNomImgEcrite2[250];
-	int K, m, n, nbIter;
+	int K, m, n, nbIter, RGBouLAB;
 
-	if (argc != 7) 
+	if (argc != 8) 
 	{
 		return 1;
 	}
@@ -333,6 +349,7 @@ int main(int argc, char **argv)
 	sscanf (argv[5],"%d", &n);
 	// Nombre d'itérations = treshold
 	sscanf (argv[6],"%d", &nbIter);
+	sscanf (argv[7],"%d", &RGBouLAB);
 		
 	ImageBase imIn;
 	imIn.load(cNomImgLue);
@@ -369,8 +386,10 @@ int main(int argc, char **argv)
 
 	// 1. Conversion de RGB à Lab
 	ImageBase Lab(imIn.getWidth(), imIn.getHeight(), imIn.getColor());	
-	//RGBtoLab(imOut, Lab, 'A');
 
+	if(RGBouLAB == 1) {
+		RGBtoLab(imOut, Lab, 'A');
+	}
 
 
 	// 2. Initialisation des clusters
@@ -388,11 +407,11 @@ int main(int argc, char **argv)
 
 	// Récupération de la luminance
 	ImageBase L(imIn.getWidth(), imIn.getHeight(), false);	
-	RGBtoLab(imOut, L, 'L');	
+	RGBtoLab(Lab, L, 'L');	
 
 
 	// Entropie de l'image originale
-	double entropie_originale = Entropy(imIn);
+	double entropie_originale = Entropy(imIn, "HistoRGB.dat");
 	std::cout << "Entropie de l'image originale : " << entropie_originale << " bits/pixel = " << ceil(entropie_originale) << " bits/pixel (entier supérieur)" << std::endl; 
 
 
@@ -512,7 +531,6 @@ int main(int argc, char **argv)
 
 	paletteIndice.save("testPal.ppm");
 
-
 	// Rendu des indices
 	ImageBase indices(superpixelImage.getWidth(), superpixelImage.getHeight(), false);	
 	for(int x = 0; x < superpixelImage.getHeight(); x+=1) {
@@ -565,7 +583,7 @@ int main(int argc, char **argv)
 
 
 	// Entropie de l'image superpixelisé
-	double entropie_superpixels = Entropy(superpixelImage);
+	double entropie_superpixels = Entropy(superpixelImage, "HistoRGB_SP.dat");
 	std::cout << "Entropie de l'image superpixelisée : " << entropie_superpixels << " bits/pixel = " << ceil(entropie_superpixels) << " bits/pixel (entier supérieur)" << std::endl; 
 
 
